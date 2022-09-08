@@ -3,12 +3,6 @@
 ################################################################################
 library(nnet) # logistic regression with multiple classes
 library(ggplot2)
-library(gridExtra)
-library(grid)
-library(plotly)
-library(dplyr)
-library(forcats)
-library(tidyverse)
 ################################################################################
 # READING THE DATA
 ################################################################################
@@ -394,9 +388,7 @@ for (i in 1:3){
 
 df_classes <- data.frame(classes = classes, counts = counts)
 
-plot <-df_classes %>%
-  mutate(classes = fct_reorder(classes, counts)) %>%
-  ggplot(data = df_classes, mapping = aes(x = counts, y = reorder(classes, counts))) + 
+plot <- ggplot(data = df_classes, mapping = aes(x = counts, y = reorder(classes, counts))) + 
   theme_bw() +
   geom_bar(stat = "identity", fill = "darkblue", alpha = .6, width = .4,
            color = "black") +
