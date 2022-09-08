@@ -58,7 +58,7 @@ features <- data.frame(r = data$r, g = data$g, u = data$u, z = data$z,
                        redshift = data$redshift, i = data$i)
 
 # Write that the model performance is maximum if all spectral features are 
-# included. Show this #TODO
+# included. Future scope
 ################################################################################
 # DATA PREPROCESSING
 ################################################################################
@@ -105,20 +105,283 @@ print(plot)
 logreg <- multinom(formula = target ~ ., data = tr)
 
 pred_tr <- predict(logreg, tr, type = "class")
-
-MCR_tr <- mean(pred_tr != tr$target)
-print("MCR_tr is"); print(MCR_tr)
-
 pred_te <- predict(logreg, te, type = "class")
-MCR_te <- mean(pred_te != te$target)
+################################################################################
+# PERFORMANCE EVALUATION
+################################################################################
+CM_tr <- table(pred_tr, tr$target, deparse.level = 0)
+CM_te <- table(pred_te, te$target, deparse.level = 0)
+rownames(CM_te) <- c("GAL_pr", "QUA_pr", "STA_pr")
+colnames(CM_te) <- c("GAL_tr", "QUA_tr", "STA_tr")
 
-print("MCR_te is"); print(MCR_te)
-
-CM_te <- table(te$target, pred_te)
-print("Confusion matrix for test data is"); print(CM_te)
+cat("The confusion matrix for train data is\n"); print(CM_tr)
+cat("The confusion matrix for test data is\n"); print(CM_te)
 # 1 is GALAXY, 2 is QUASAR, 3 is STAR
 # We see that stars are easily classified. The confusion can arise between 
-# the identification of galaxies and quasars. TODO
+# the identification of galaxies and quasars. 
+# For assessment of the model performance on distinguishing between stars
+# and other classes, one can simply use the accuracy metric because of the low number
+# of misclassification cases. That is, the number of true negatives (TNs) for
+# stars versus other classes is 7. 
+
+# Let us introduce this renewed stars-versus-rest CM
+CM_tr_stars_vs_rest <- matrix(c(CM_tr[1, 1] + CM_tr[1, 2] + CM_tr[2, 1] + CM_tr[2, 2], 
+                                CM_tr[2, 3] + CM_tr[1, 3],
+                                CM_tr[3, 1] + CM_tr[3, 2],
+                                CM_tr[3, 3]), byrow = TRUE, ncol = 2)
+
+colnames(CM_tr_stars_vs_rest) <- c("rest_tr", "STA_tr")
+rownames(CM_tr_stars_vs_rest) <- c("rest_pr", "STA_pr")
+
+print("For train data")
+print(CM_tr_stars_vs_rest)
+GT <- factor(c("Rest", "Stars", "Rest", "Stars"))
+predicted <- factor(c("Rest", "Rest", "Stars", "Stars"))
+values <- c(CM_tr_stars_vs_rest)
+df <- data.frame(GT, predicted, values)
+
+# Visualise this CM
+plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+  geom_tile(aes(fill = values), color = "white") +
+  geom_text(data = subset(df, values > 30000),
+            aes(label = values), 
+            vjust = 1, color = "white", fontface = "bold", family = "arial") +
+  geom_text(data = subset(df, values < 30000),
+            aes(label = values), 
+            vjust = 1, color = "black", fontface = "bold", family = "arial") +
+  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
+  theme_bw() +
+  scale_x_discrete(position = "top") +
+  scale_y_discrete(limits=rev) +
+  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
+       title = "Train CM for stars-versus-rest case") +
+  theme(title = element_text(size = 12, face = 'bold'),
+        axis.title = element_text(size = 10, face = "plain"))
+
+print(plot)
+
+CM_te_stars_vs_rest <- matrix(c(CM_te[1, 1] + CM_te[1, 2] + CM_te[2, 1] + CM_te[2, 2], 
+                                CM_te[2, 3] + CM_te[1, 3],
+                                CM_te[3, 1] + CM_te[3, 2],
+                                CM_te[3, 3]), byrow = TRUE, ncol = 2)
+
+colnames(CM_te_stars_vs_rest) <- c("rest_tr", "STA_tr")
+rownames(CM_te_stars_vs_rest) <- c("rest_pr", "STA_pr")
+
+print("For test data")
+print(CM_te_stars_vs_rest)
+GT <- factor(c("Rest", "Stars", "Rest", "Stars"))
+predicted <- factor(c("Rest", "Rest", "Stars", "Stars"))
+values <- c(CM_te_stars_vs_rest)
+df <- data.frame(GT, predicted, values)
+
+# Visualise this CM
+plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+  geom_tile(aes(fill = values), color = "white") +
+  geom_text(data = subset(df, values > 10000),
+            aes(label = values), 
+            vjust = 1, color = "white", fontface = "bold", family = "arial") +
+  geom_text(data = subset(df, values < 10000),
+            aes(label = values), 
+            vjust = 1, color = "black", fontface = "bold", family = "arial") +
+  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
+  theme_bw() +
+  scale_x_discrete(position = "top") +
+  scale_y_discrete(limits=rev) +
+  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
+       title = "Test CM for stars-versus-rest case") +
+  theme(title = element_text(size = 12, face = 'bold'),
+        axis.title = element_text(size = 10, face = "plain"))
+
+print(plot)
+
+cat("Train accuracy for distinguishing between stars and other classes\n")
+MCR_tr <- (CM_tr_stars_vs_rest[1, 1] + CM_tr_stars_vs_rest[2, 2]) / sum(CM_tr_stars_vs_rest) 
+cat(round(MCR_tr*100, 1), "%", sep="")
+
+cat("Test accuracy for distinguishing between stars and other classes\n")
+MCR_te <- (CM_te_stars_vs_rest[1, 1] + CM_te_stars_vs_rest[2, 2]) / sum(CM_te_stars_vs_rest) 
+cat(round(MCR_te*100, 1), "%", sep="")
+
+# Now, let us consider distinguishing quasars from other data. The confusion
+# matrix is as follows:
+CM_tr_quasars_vs_rest <- matrix(c(CM_tr[1, 1] + CM_tr[1, 3] + CM_tr[3, 1] + CM_tr[3, 3], 
+                                CM_tr[1, 2] + CM_tr[3, 2],
+                                CM_tr[2, 1] + CM_tr[2, 3],
+                                CM_tr[2, 2]), byrow = TRUE, ncol = 2)
+
+colnames(CM_tr_quasars_vs_rest) <- c("rest_tr", "QUA_tr")
+rownames(CM_tr_quasars_vs_rest) <- c("rest_pr", "QUA_pr")
+
+print("For train data")
+print(CM_tr_quasars_vs_rest)
+
+GT <- factor(c("Rest", "Quasars", "Rest", "Quasars"))
+predicted <- factor(c("Rest", "Rest", "Quasars", "Quasars"))
+values <- c(CM_tr_quasars_vs_rest)
+df <- data.frame(GT, predicted, values)
+
+# Visualise this CM
+plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+  geom_tile(aes(fill = values), color = "white") +
+  geom_text(data = subset(df, values > 40000),
+            aes(label = values), 
+            vjust = 1, color = "white", fontface = "bold", family = "arial") +
+  geom_text(data = subset(df, values < 40000),
+            aes(label = values), 
+            vjust = 1, color = "black", fontface = "bold", family = "arial") +
+  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
+  theme_bw() +
+  scale_x_discrete(position = "top") +
+  scale_y_discrete(limits=rev) +
+  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
+       title = "Train CM for quasars-versus-rest case") +
+  theme(title = element_text(size = 12, face = 'bold'),
+        axis.title = element_text(size = 10, face = "plain"))
+
+print(plot)
+
+CM_te_quasars_vs_rest <- matrix(c(CM_te[1, 1] + CM_te[1, 3] + CM_te[3, 1] + CM_te[3, 3], 
+                                CM_te[1, 2] + CM_te[3, 2],
+                                CM_te[2, 1] + CM_te[2, 3],
+                                CM_te[2, 2]), byrow = TRUE, ncol = 2)
+
+colnames(CM_te_quasars_vs_rest) <- c("rest_tr", "QUA_tr")
+rownames(CM_te_quasars_vs_rest) <- c("rest_pr", "QUA_pr")
+
+print("For test data")
+print(CM_te_quasars_vs_rest)
+
+GT <- factor(c("Rest", "Quasars", "Rest", "Quasars"))
+predicted <- factor(c("Rest", "Rest", "Quasars", "Quasars"))
+values <- c(CM_te_quasars_vs_rest)
+df <- data.frame(GT, predicted, values)
+
+# Visualise this CM
+plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+  geom_tile(aes(fill = values), color = "white") +
+  geom_text(data = subset(df, values > 6000),
+            aes(label = values), 
+            vjust = 1, color = "white", fontface = "bold", family = "arial") +
+  geom_text(data = subset(df, values < 6000),
+            aes(label = values), 
+            vjust = 1, color = "black", fontface = "bold", family = "arial") +
+  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
+  theme_bw() +
+  scale_x_discrete(position = "top") +
+  scale_y_discrete(limits=rev) +
+  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
+       title = "Test CM for quasars-versus-rest case") +
+  theme(title = element_text(size = 12, face = 'bold'),
+        axis.title = element_text(size = 10, face = "plain"))
+
+print(plot)
+
+# Here, we observe the large number of misclassification cases. To assess the
+# model performance, considering the data imbalance (low number of quasars wrt
+# other classes, as shown in Figure X), we use the Phi coefficient, which is a
+# recommended choice for binary classification in the case of imbalanced data
+
+phi_coef <- function(M){
+  numerator <- (M[1, 1]*M[2, 2] - M[1, 2]*M[2, 1])
+  
+  MCC <- numerator/sqrt(M[1, 1] + M[1, 2])
+  MCC <- MCC/sqrt(M[2, 1] + M[2, 2])
+  MCC <- MCC/sqrt(M[1, 1] + M[2, 1])
+  MCC <- MCC/sqrt(M[1, 2] + M[2, 2])
+  return(MCC)
+}
+
+cat("Train Phi coefficienct for distinguishing between quasars and other classes\n", 
+    round(phi_coef(CM_tr_quasars_vs_rest)*100, 1), "%", sep = "")
+cat("Test Phi coefficienct for distinguishing between quasars and other classes\n", 
+    round(phi_coef(CM_te_quasars_vs_rest)*100, 1), "%", sep = "")
+
+# Considering the considerable imbalance, the model performance is decent in
+# distinguishing quasars from other classes
+
+# Finally, we want to assess the model performance in distinguishing galaxies 
+# from other classes. 
+
+CM_tr_galaxies_vs_rest <- matrix(c(CM_tr[2, 2] + CM_tr[2, 3] + CM_tr[3, 2] + CM_tr[3, 3], 
+                                  CM_tr[1, 2] + CM_tr[1, 3],
+                                  CM_tr[2, 1] + CM_tr[3, 1],
+                                  CM_tr[1, 1]), byrow = TRUE, ncol = 2)
+
+colnames(CM_tr_galaxies_vs_rest) <- c("rest_tr", "GAL_tr")
+rownames(CM_tr_galaxies_vs_rest) <- c("rest_pr", "GAL_pr")
+
+print("For train data")
+print(CM_tr_galaxies_vs_rest)
+GT <- factor(c("Rest", "Galaxies", "Rest", "Galaxies"))
+predicted <- factor(c("Rest", "Rest", "Galaxies", "Galaxies"))
+values <- c(CM_tr_galaxies_vs_rest)
+df <- data.frame(GT, predicted, values)
+
+# Visualise this CM
+plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+  geom_tile(aes(fill = values), color = "white") +
+  geom_text(data = subset(df, values > 30000),
+            aes(label = values), 
+            vjust = 1, color = "white", fontface = "bold", family = "arial") +
+  geom_text(data = subset(df, values < 30000),
+            aes(label = values), 
+            vjust = 1, color = "black", fontface = "bold", family = "arial") +
+  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
+  theme_bw() +
+  scale_x_discrete(position = "top") +
+  scale_y_discrete(limits=rev) +
+  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
+       title = "Train CM for galaxies-versus-rest case") +
+  theme(title = element_text(size = 12, face = 'bold'),
+        axis.title = element_text(size = 10, face = "plain"))
+
+print(plot)
+
+CM_te_galaxies_vs_rest <- matrix(c(CM_te[2, 2] + CM_te[2, 3] + CM_te[3, 2] + CM_te[3, 3], 
+                                  CM_te[1, 2] + CM_te[1, 3],
+                                  CM_te[2, 1] + CM_te[3, 1],
+                                  CM_te[1, 1]), byrow = TRUE, ncol = 2)
+
+colnames(CM_te_galaxies_vs_rest) <- c("rest_tr", "GAL_tr")
+rownames(CM_te_galaxies_vs_rest) <- c("rest_pr", "GAL_pr")
+
+print("For test data")
+print(CM_te_galaxies_vs_rest)
+GT <- factor(c("Rest", "Galaxies", "Rest", "Galaxies"))
+predicted <- factor(c("Rest", "Rest", "Galaxies", "Galaxies"))
+values <- c(CM_te_galaxies_vs_rest)
+df <- data.frame(GT, predicted, values)
+
+# Visualise this CM
+plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+  geom_tile(aes(fill = values), color = "white") +
+  geom_text(data = subset(df, values > 6000),
+            aes(label = values), 
+            vjust = 1, color = "white", fontface = "bold", family = "arial") +
+  geom_text(data = subset(df, values < 6000),
+            aes(label = values), 
+            vjust = 1, color = "black", fontface = "bold", family = "arial") +
+  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
+  theme_bw() +
+  scale_x_discrete(position = "top") +
+  scale_y_discrete(limits=rev) +
+  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
+       title = "Test CM for galaxies-versus-rest case") +
+  theme(title = element_text(size = 12, face = 'bold'),
+        axis.title = element_text(size = 10, face = "plain"))
+
+print(plot)
+# For assessing the model performance for distinguishing galaxies from other classes,
+# we can use the accuracy metric because the imbalance is not a problem here. 
+
+cat("Train accuracy for distinguishing between galaxies and other classes\n")
+MCR_tr <- (CM_tr_galaxies_vs_rest[1, 1] + CM_tr_galaxies_vs_rest[2, 2]) / sum(CM_tr_galaxies_vs_rest) 
+cat(round(MCR_tr*100, 1), "%", sep="")
+
+cat("Test accuracy for distinguishing between galaxies and other classes\n")
+MCR_te <- (CM_te_galaxies_vs_rest[1, 1] + CM_te_galaxies_vs_rest[2, 2]) / sum(CM_te_galaxies_vs_rest) 
+cat(round(MCR_te*100, 1), "%", sep="")
 ################################################################################
 # CLASS DISTRIBUTION
 ################################################################################
