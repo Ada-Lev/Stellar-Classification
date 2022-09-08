@@ -1,5 +1,5 @@
 ---
-title: "Stellar Classification using Dataset SDSS17"
+title: "Stellar Classification based on Spectral Characteristics using Dataset SDSS17"
 author: "Kristina Levina"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: pdf_document
@@ -18,7 +18,7 @@ data <- read.csv("data/star_classification.csv", stringsAsFactors = TRUE)
 
 # Introduction
 
-Stellar classification is the classification of stars based on their spectral characteristics. Stellar Classification Dataset - SDSS17 [1] provides data for classification of stars, galaxies, and quasars based on their spectral characteristics. This dataset contains 17 attributes, one of which is *class*. Other 18 attributes include various spectral characteristics, objest identifiers, and measurement-related parameters. Overall, the dataset contains 100000 observations of space taken by the Sloan Digital Sky Survey (SDSS).
+Stellar Classification Dataset - SDSS17 [1] provides data for classification of stars, galaxies, and quasars based on their spectral characteristics. This dataset contains 17 attributes, one of which is `class`. Other 18 attributes include various spectral characteristics, object identifiers, and measurement-related parameters. Overall, the dataset contains 100000 observations of space taken by the Sloan Digital Sky Survey (SDSS).
 
 The distribution of stars, quasars, and galaxies is shown in Fig. \ref{fig:fig1}.
 ```{r, echo=FALSE, fig.align='center', out.width="60%", fig.cap="\\label{fig:fig1}Distribution of stars, galaxies, and quasars in Stellar Classification Dataset - SDSS17 "}
@@ -58,24 +58,24 @@ plot <- ggplot(data = df_classes, mapping = aes(x = counts, y = reorder(classes,
 print(plot)
 ```
 
-As one can observe from Fig. \ref{fig:fig1}, the problem is quite imbalanced.
+As one can observe from Fig. \ref{fig:fig1}, the problem is quite imbalanced because the number of quasars is low with respect to the number of galaxies. The same concerns the number of stars.
 
 # Feature Selection
 
-Full description of the attributes can be found in [1]. We need to select meaningful attributes to be used in our model using domain knowledge and exploratory analysis. 
+Full description of the attributes can be found in [1]. We need to select meaningful attributes for use in our model. To this, exploratory analysis is performed. 
 
 First, `obj_ID` is the object identifier, the unique value that identifies the object in the image catalog used by the CAS. Therefore, it should not be used in further analysis because it is not a spectral characteristic.
 
-Second, `alpha` and `delta` specify the right ascension and declination angles, respectively. These angles specify the position of the object in the sky,
- making the use of the feature irrelevant for the model.
+Second, `alpha` and `delta` specify the right ascension and declination angles, respectively. These angles specify the position of the observed object in the sky,
+ making their use irrelevant for the model.
 
 Third, `u`, `r`, `g`, `i`, `redshift`, and `z` are spectral characteristics. They should be included into the model.
 
 Fourth, `run_ID`, `rerun_ID`, `cam_col`, `fiber_ID`, `plate`, `MJD`, and `field_ID` are features related to the the measurement setup, which makes them irrelevant for stellar classification based on spectroscopic data.
 
-Fifth, `spec_obj_ID` is related to spectroscopic observations. We will use it in our model.
+Fifth, `spec_obj_ID` is related to spectroscopic observations. Hence, we will use this feature in our model.
 
-Let us now calculate the correlation between chosen features for understanding their relationship between each other.
+Let us now calculate the correlation between the selected features to understand their relationship between each other.
 
 ```{r, echo = FALSE}
 features <- data.frame(u = data$u, r = data$g, g = data$g, i = data$i, 
@@ -93,7 +93,7 @@ We observe that `r`, `g`, `u`, and `z` are strongly correlated. However, further
 
 # Data Preprocessing
 
-The selected features were scaled so that they all have a mean of 0 and a standard deviation of 1. The dataset was split to 80% train and 20% test randomly.
+The selected features have been scaled so that they all have a mean of 0 and a standard deviation of 1. The dataset is split to 80% train and 20% test data randomly.
 
 ```{r, echo = FALSE}
 features <- data.frame(r = data$r, g = data$g, u = data$u, z = data$z, 
@@ -110,7 +110,7 @@ te <- data_prep[-tr_ind, ]
 ```
 # Problem Visualisation
 
-We selected two meaningful features `spec_obj_ID` versus `red_shift` and visualised the distribution of classes. The results are shown in Fig. \ref{fig:fig2}.
+We selected two meaningful features `spec_obj_ID` and `red_shift` and visualised the distribution of classes. The results are shown in Fig. \ref{fig:fig2}.
 
 ```{r echo=FALSE, fig.align='center', out.width="60%", fig.cap="\\label{fig:fig2}Visualised distribution of classes in the coordinate system of spec-obj-ID and red-shift"}
 plot <- ggplot(data = te) + theme_bw() +
@@ -130,11 +130,11 @@ plot <- ggplot(data = te) + theme_bw() +
 print(plot)
 ```
 
-Figure \ref{fig:fig2} shows three distinct clusters that should be easily identified using logistic regression. We see that the red shift value that corresponds to quasars is the highest because these are the most distant objects we can observe. Stars have the lowest red shift value. The value of the red shift of galaxies is in between.
+Figure \ref{fig:fig2} shows three distinct clusters that should be easily identified using logistic regression. We see that the red shift value that corresponds to quasars is the highest because quasars are the most distant objects humans can observe. Stars have the lowest red shift value. The red shift value of galaxies is in between.
 
 # Model and Results
 
-We use logistic regression model with `multinom` function from `nnet` package. To evaluate the model performance, we use one-versus rest approach, and investigaete the following six cases: 1) Train data, galaxies-versus-rest classification; 2) Train data, quasars-versus-rest classification; 3) Train data, stars-versus-rest classification; 4) Test data, galaxies-versus-rest classification; 5) Test data, quasars-versus-rest classification; 6) Test data, stars-versus-rest classification.
+We use the logistic regression model with `multinom` function from `nnet` package. To evaluate the model performance, we use one-versus rest approach and investigate the following three cases: 1)  galaxies-versus-rest classification, 2) quasars-versus-rest classification, and 3) stars-versus-rest classification. The performance of the model is assessed on the test data.
 
 ```{r include=F}
 logreg <- multinom(formula = target ~ ., data = tr)
@@ -446,7 +446,7 @@ grid.arrange(plot1, plot2, ncol = 2)
 
 **Strengths and limitations:** We can observe that the model performance is excellent for distinguishing stars from other classes. The model performance is slightly worse but still good for distinguishing galaxies from other classes. In contrast, the model performance is bad for distinguishing quasars from other classes.
 
-**Future scope:** We will attempt to increase the performance of quasars' classification without compromising the performance of stars' and galaxies' classification by improving the model. Furthermore, the performance of the model selected herein will be compared with those of other models, and the best model will be used. In addition, the features used in the model should be investigated further; for example, basis expansion can be used, and correlated features should be explored further. Finally, the model evaluation criteria will be adjusted; for example, ROC and AUC curves will be explored. 
+**Future scope:** We will attempt to increase the performance of quasars' classification without compromising the performance of stars' and galaxies' classification by improving the model. Furthermore, the performance of the model selected herein will be compared with those of other models, and the best model will be used. In addition, the features used in the model should be investigated further; for example, basis expansion can be used, and the correlated features should be explored further. Finally, the model evaluation criteria will be adjusted; for example, ROC and AUC characteristics will be explored. 
 
 # References
 
