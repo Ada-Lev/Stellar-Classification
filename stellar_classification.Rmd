@@ -18,7 +18,7 @@ data <- read.csv("data/star_classification.csv", stringsAsFactors = TRUE)
 
 # Introduction
 
-Stellar Classification Dataset - SDSS17 [1] provides data for classification of stars, galaxies, and quasars based on their spectral characteristics. This dataset contains 17 attributes, one of which is `class`. Other 18 attributes include various spectral characteristics, object identifiers, and measurement-related parameters. Overall, the dataset contains 100000 observations of space taken by the Sloan Digital Sky Survey (SDSS).
+Stellar Classification Dataset - SDSS17 [1] provides data for classification of stars, galaxies, and quasars based on their spectral characteristics. This dataset contains 18 attributes, one of which is `class`. Other 17 attributes include various spectral characteristics, object identifiers, and measurement-related parameters. Overall, the dataset contains 100000 observations of space taken by the Sloan Digital Sky Survey (SDSS).
 
 The distribution of stars, quasars, and galaxies is shown in Fig. \ref{fig:fig1}.
 ```{r, echo=FALSE, fig.align='center', out.width="60%", fig.cap="\\label{fig:fig1}Distribution of stars, galaxies, and quasars in Stellar Classification Dataset - SDSS17 "}
