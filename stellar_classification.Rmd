@@ -1,9 +1,20 @@
 ---
-title: "Stellar Classification based on Spectral Characteristics using Dataset SDSS17"
-author: "Kristina Levina"
+title: "**Stellar Classification based on Spectral Characteristics**"
+author: "**Kristina Levina**"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-output: pdf_document
+output:
+  pdf_document:
+    fig_caption: yes        
+    includes:  
+      in_header: my_header.tex
+    highlight: default
+header-includes:
+  # \usepackage{roboto}
+  \usepackage{biolinum}
+  \renewcommand{\familydefault}{\sfdefault}
+  \usepackage{xcolor}
 ---
+\definecolor{shadecolor}{RGB}{240, 240, 240}
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -16,12 +27,14 @@ library(grid)
 data <- read.csv("data/star_classification.csv", stringsAsFactors = TRUE)
 ```
 
+**Summary:** In this study, Stellar Classification Dataset - SDSS17 was explored. This is a multi-class classification problem with three classes: galaxies, stars, and quasars. The logistic regression model with `multinom` function from `nnet` package was utilised to solve this problem. The obtained accuracy for distinguishing stars from other classes is 99.4%. The obtained $\phi$ coefficient for distinguishing quasars from other classes is 89.2%. The obtained accuracy for distinguishing galaxies from other classes is 96.2%. 
+
 # Introduction
 
 Stellar Classification Dataset - SDSS17 [1] provides data for classification of stars, galaxies, and quasars based on their spectral characteristics. This dataset contains 18 attributes, one of which is `class`. Other 17 attributes include various spectral characteristics, object identifiers, and measurement-related parameters. Overall, the dataset contains 100000 observations of space taken by the Sloan Digital Sky Survey (SDSS).
 
 The distribution of stars, quasars, and galaxies is shown in Fig. \ref{fig:fig1}.
-```{r, echo=FALSE, fig.align='center', out.width="60%", fig.cap="\\label{fig:fig1}Distribution of stars, galaxies, and quasars in Stellar Classification Dataset - SDSS17 "}
+```{r fig1, echo=FALSE, fig.align='center', out.width="60%", fig.cap="\\label{fig:fig1}Distribution of stars, galaxies, and quasars in Stellar Classification Dataset - SDSS17 "}
 classes = c("GALAXY", "STAR", "QSO")
 counts = numeric(3)
 for (i in 1:3){
@@ -62,7 +75,7 @@ As one can observe from Fig. \ref{fig:fig1}, the problem is quite imbalanced bec
 
 # Feature Selection
 
-Full description of the attributes can be found in [1]. We need to select meaningful attributes for use in our model. To this, exploratory analysis is performed. 
+Full description of the attributes can be found in [1]. We need to select meaningful attributes for use in the model. To this, exploratory analysis is performed. 
 
 First, `obj_ID` is the object identifier, the unique value that identifies the object in the image catalog used by the CAS. Therefore, it should not be used in further analysis because it is not a spectral characteristic.
 
@@ -73,7 +86,7 @@ Third, `u`, `r`, `g`, `i`, `redshift`, and `z` are spectral characteristics. The
 
 Fourth, `run_ID`, `rerun_ID`, `cam_col`, `fiber_ID`, `plate`, `MJD`, and `field_ID` are features related to the the measurement setup, which makes them irrelevant for stellar classification based on spectroscopic data.
 
-Fifth, `spec_obj_ID` is related to spectroscopic observations. Hence, we will use this feature in our model.
+Fifth, `spec_obj_ID` is related to spectroscopic observations. Hence, we will use this feature in the model.
 
 Let us now calculate the correlation between the selected features to understand their relationship between each other.
 
