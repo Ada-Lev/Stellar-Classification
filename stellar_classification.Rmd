@@ -1,6 +1,6 @@
 ---
-title: \Large STELLAR CLASSIFICATION BASED ON SPECTRAL CHARACTERISTICS
-date: \begin{flushleft}Kristina Levina \thickspace \thickspace \thickspace \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \small`r format(Sys.time(), '%d/%m/%Y')`\end{flushleft}
+title: STELLAR CLASSIFICATION USING SPECTRAL CHARACTERISTICS
+date: Kristina Levina \hfill \small`r format(Sys.time(), '%d/%m/%Y')`
 output:
   pdf_document:
     fig_caption: yes        
@@ -23,17 +23,30 @@ header-includes:
 <!-- # Set highlighted box for inline code -->
 \tcbset{on line, 
         boxsep = 3pt, left = 0pt, right = 0pt, top = 0pt, bottom = 0pt,
-        colframe = white, colback = inline_code_color,  
-        highlight math style={enhanced}
+        colframe = white, colback = inline_code_color,
+        highlight math style = {enhanced}
         }
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, dev="cairo_pdf")
+```{r setup, include = F}
+knitr::opts_chunk$set(echo = F, warning = F, message = F, fig.align = 'center', out.width = "60%", dev = "cairo_pdf")
 
 library(nnet)
 library(ggplot2)
 library(gridExtra)
 library(grid)
+library(sysfonts)
+
+# ggplot2 common theme
+dejavu_layer <- list(
+  theme_bw(),
+  theme(
+    text = element_text(family = "DejaVuSans", face = "bold", size = 11),
+    title = element_text(size = 12),
+    legend.text = element_text(face = "plain", size = 11),
+    axis.text = element_text(size = 10, family = "DejaVuSans", face = "plain"),
+    axis.title = element_text(size = 11, face = "plain")
+  )
+)
 
 data <- read.csv("data/star_classification.csv", stringsAsFactors = TRUE)
 ```
@@ -45,7 +58,7 @@ data <- read.csv("data/star_classification.csv", stringsAsFactors = TRUE)
 Stellar Classification Dataset - SDSS17 [1] provides data for classification of stars, galaxies, and quasars based on their spectral characteristics. This dataset contains 18 attributes, one of which is \tcbox{\texttt{class}}. Other 17 attributes include various spectral characteristics, object identifiers, and measurement-related parameters. Overall, the dataset contains 100000 observations of space taken by the Sloan Digital Sky Survey (SDSS).
 
 The distribution of stars, quasars, and galaxies is shown in Fig. \ref{fig:fig1}.
-```{r fig1, echo=FALSE, fig.align='center', out.width="60%", fig.cap="\\label{fig:fig1}Distribution of stars, galaxies, and quasars in Stellar Classification Dataset - SDSS17 "}
+```{r fig.cap = "\\label{fig:fig1}Distribution of stars, galaxies, and quasars in Stellar Classification Dataset - SDSS17"}
 classes = c("GALAXY", "STAR", "QSO")
 counts = numeric(3)
 for (i in 1:3){
@@ -54,31 +67,38 @@ for (i in 1:3){
 
 df_classes <- data.frame(classes = classes, counts = counts)
 
-plot <- ggplot(data = df_classes, mapping = aes(x = counts, y = reorder(classes, counts))) + 
-  theme_bw() +
+plot <- ggplot(data = df_classes, 
+               mapping = aes(x = counts, y = reorder(classes, counts))) + 
+  dejavu_layer +
   geom_bar(stat = "identity", fill = "darkblue", alpha = .6, width = .4,
            color = "black") +
   labs(title = "Distribution of Classes", x = "", y = "") +
-  theme(panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        title = element_text(size = 12, face = 'bold')) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.text = element_text(color = "black"),
+    title = element_text(size = 15)
+  ) +
   scale_x_continuous(expand = c(0, 10), limits = c(0, 70000)) +
   geom_text(
     aes(1000, y = classes, label = c("Galaxies", "Stars", "Quasars")),
     hjust = 0,
     nudge_x = 0,
     color = "white",
-    size = 7
+    size = 7,
+    family = "DejaVuSans"
   ) +
   geom_text(
     aes(counts + 1000, y = classes, label = counts),
     hjust = 0,
     nudge_x = 0.3,
     colour = "black",
-    size = 6
+    size = 6,
+    family = "DejaVuSansCondensed"
   )
+
 print(plot)
 ```
 
@@ -101,16 +121,20 @@ Fifth, \tcbox{\texttt{spec-obj-ID}} is related to spectroscopic observations. He
 
 Let us now calculate the correlation between the selected features to understand their relationship between each other.
 
-```{r, echo = FALSE}
-features <- data.frame(u = data$u, r = data$g, g = data$g, i = data$i, 
-                       z = data$z, spec_obj_ID = data$spec_obj_ID, 
+```{r}
+features <- data.frame(u = data$u, 
+                       r = data$g, 
+                       g = data$g, 
+                       i = data$i, 
+                       z = data$z, 
+                       spec_obj_ID = data$spec_obj_ID, 
                        redshift = data$redshift)
 target <- data$class
 
 # Compute the correlation matrix
-cor_mat <- round(cor(features), 3)
+cor_mat <- cor(features)
 ```
-```{r, echo = FALSE}
+```{r}
 print(cor_mat)
 ```
 We observe that \tcbox{\texttt{r}}, \tcbox{\texttt{g}}, \tcbox{\texttt{u}}, and \tcbox{\texttt{z}} are strongly correlated. However, further analysis of the model performance has shown that inclusion of all these features into the model improves the results.
@@ -119,16 +143,17 @@ We observe that \tcbox{\texttt{r}}, \tcbox{\texttt{g}}, \tcbox{\texttt{u}}, and 
 
 The selected features have been scaled so that they all have a mean of 0 and a standard deviation of 1. The dataset is split to 80% train and 20% test data randomly.
 
-```{r, echo = FALSE}
-features <- data.frame(r = data$r, g = data$g, u = data$u, z = data$z, 
-                       spec_obj_ID = data$spec_obj_ID, 
-                       redshift = data$redshift, i = data$i)
+```{r}
+# Scale the features to zero mean and 1 std
 features <- scale(features)
+
+# Name preprocessed data as data_prep
 data_prep <- as.data.frame(cbind(target, features))
-n <- dim(data_prep)[1]
-# Data division
+
+# Data division to train and test
 set.seed(12345)
-tr_ind <- sample(1:n, floor(0.8*n))
+n <- dim(data_prep)[1]
+tr_ind <- sample(1:n, floor(0.8*n)) # 80% as training data and 20% as test data
 tr <- data_prep[tr_ind, ]
 te <- data_prep[-tr_ind, ]
 ```
@@ -136,20 +161,30 @@ te <- data_prep[-tr_ind, ]
 
 We selected two meaningful features \tcbox{\texttt{spec-obj-ID}} and \tcbox{\texttt{redshift}} and visualised the distribution of classes. The results are shown in Fig. \ref{fig:fig2}.
 
-```{r echo=FALSE, fig.align='center', out.width="60%", fig.cap="\\label{fig:fig2}Visualised distribution of classes in the coordinate system of spec-obj-ID and red-shift"}
-plot <- ggplot(data = te) + theme_bw() +
-  geom_point(mapping = aes(x = redshift, y = spec_obj_ID, 
-                           color = as.factor(target))) +
-  scale_color_manual(values = c("orange", "#d50000", "#4527a0"), 
-                     name = NULL,
-                     labels = c("Galaxies", "Quasars", "Stars")) + 
-  labs(title = "Clusters of galaxies, quasars, and stars\nin the redshift-spec_obj_ID coordinate system") +
-  theme(panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        title = element_text(size = 12, face = 'bold'),
-        axis.title = element_text(size = 10, face = "plain")) 
+```{r fig.cap = "\\label{fig:fig2}Visualised distribution of classes in the coordinate system of spec-obj-ID and red-shift"}
+plot <- ggplot(data = te) + dejavu_layer +
+  geom_point(
+    mapping = aes(x = redshift, y = spec_obj_ID, color = as.factor(target)),
+    size = 2
+  ) +
+  scale_color_manual(
+    values = c("orange", "#d50000", "#4527a0"), 
+    name = NULL,
+    labels = c("Galaxies", "Quasars", "Stars")
+  ) + 
+  labs(title = "Clusters of Galaxies, Quasars & Stars") +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.title = element_text(family = "DejaVuSansMono", 
+                              face = "plain",
+                              size = 14),
+    axis.text = element_text(color = "black", size = 13),
+    title = element_text(size = 14),
+    legend.text = element_text(size = 13)
+  ) 
 
 print(plot)
 ```
@@ -160,31 +195,27 @@ Figure \ref{fig:fig2} shows three distinct clusters that should be easily identi
 
 We use the logistic regression model with \tcbox{\texttt{multinom}} function from \tcbox{\texttt{nnet}} package. To evaluate the model performance, we use one-versus rest approach and investigate the following three cases: 1)  galaxies-versus-rest classification, 2) quasars-versus-rest classification, and 3) stars-versus-rest classification. The performance of the model is assessed on the test data.
 
-```{r include=F}
+```{r include = F}
 logreg <- multinom(formula = target ~ ., data = tr)
 
 pred_tr <- predict(logreg, tr, type = "class")
 pred_te <- predict(logreg, te, type = "class")
 ```
 
-```{r echo= FALSE}
+```{r}
 
 CM_tr <- table(pred_tr, tr$target, deparse.level = 0)
 CM_te <- table(pred_te, te$target, deparse.level = 0)
+
 rownames(CM_te) <- c("GAL_pr", "QUA_pr", "STA_pr")
 colnames(CM_te) <- c("GAL_tr", "QUA_tr", "STA_tr")
 
 #cat("The confusion matrix for train data is\n"); print(CM_tr)
 #cat("The confusion matrix for test data is\n"); print(CM_te)
-# 1 is GALAXY, 2 is QUASAR, 3 is STAR
-# We see that stars are easily classified. The confusion can arise between 
-# the identification of galaxies and quasars. 
-# For assessment of the model performance on distinguishing between stars
-# and other classes, one can simply use the accuracy metric because of the low number
-# of misclassification cases. That is, the number of true negatives (TNs) for
-# stars versus other classes is 7. 
 
-# Let us introduce this renewed stars-versus-rest CM
+# Factors: 1 is GALAXY, 2 is QUASAR, 3 is STAR
+
+# Stars-versus-rest CM
 CM_tr_stars_vs_rest <- matrix(c(CM_tr[1, 1] + CM_tr[1, 2] + CM_tr[2, 1] + CM_tr[2, 2], 
                                 CM_tr[2, 3] + CM_tr[1, 3],
                                 CM_tr[3, 1] + CM_tr[3, 2],
@@ -195,28 +226,48 @@ rownames(CM_tr_stars_vs_rest) <- c("rest_pr", "STA_pr")
 
 #print("For train data")
 #print(CM_tr_stars_vs_rest)
+
 GT <- factor(c("Rest", "Stars", "Rest", "Stars"))
 predicted <- factor(c("Rest", "Rest", "Stars", "Stars"))
+
 values <- c(CM_tr_stars_vs_rest)
 df <- data.frame(GT, predicted, values)
 
+# Common elements for all plots with CMs:
+CM_layer <- list(
+  theme(
+    axis.text = element_text(family = "DejaVuSans", size = 11),
+    legend.title = element_text(family = "DejaVuSansCondensed",
+                                size = 10),
+    legend.text = element_text(family = "DejaVuSansCondensed",
+                                size = 8),
+    title = element_text(size = 11)
+  ),
+  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1"),
+  scale_x_discrete(position = "top"),
+  scale_y_discrete(limits = rev),
+  labs(
+    x = "Predicted", 
+    y = "Ground Truth", 
+    fill = "# Cases"
+  )
+)
+
 # Visualise this CM
-plot1 <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+plot1 <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) + 
+  dejavu_layer + CM_layer +
   geom_tile(aes(fill = values), color = "white") +
-  geom_text(data = subset(df, values > 30000),
-            aes(label = values), 
-            vjust = 1, color = "white", fontface = "bold") +
-  geom_text(data = subset(df, values < 30000),
-            aes(label = values), 
-            vjust = 1, color = "black", fontface = "bold") +
-  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
-  theme_bw() +
-  scale_x_discrete(position = "top") +
-  scale_y_discrete(limits=rev) +
-  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
-       title = "Train CM") +
-  theme(title = element_text(size = 12, face = 'bold'),
-        axis.title = element_text(size = 10, face = "plain"))
+  geom_text(
+    data = subset(df, values > 40000),
+    aes(label = values),
+    vjust = 1, color = "white", family = "DejaVuSans"
+  ) +
+  geom_text(
+    data = subset(df, values < 40000),
+    aes(label = values), 
+    vjust = 1, color = "black", family = "DejaVuSans"
+  ) +
+  labs(title = "Train CM")
 
 CM_te_stars_vs_rest <- matrix(c(CM_te[1, 1] + CM_te[1, 2] + CM_te[2, 1] + CM_te[2, 2], 
                                 CM_te[2, 3] + CM_te[1, 3],
@@ -234,45 +285,37 @@ values <- c(CM_te_stars_vs_rest)
 df <- data.frame(GT, predicted, values)
 
 # Visualise this CM
-plot2 <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+plot2 <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) + 
+  dejavu_layer + CM_layer +
   geom_tile(aes(fill = values), color = "white") +
-  geom_text(data = subset(df, values > 10000),
-            aes(label = values), 
-            vjust = 1, color = "white", fontface = "bold") +
-  geom_text(data = subset(df, values < 10000),
-            aes(label = values), 
-            vjust = 1, color = "black", fontface = "bold") +
-  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
-  theme_bw() +
-  scale_x_discrete(position = "top") +
-  scale_y_discrete(limits=rev) +
-  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
-       title = "Test CM") +
-  theme(title = element_text(size = 12, face = 'bold'),
-        axis.title = element_text(size = 10, face = "plain"))
+  geom_text(
+    data = subset(df, values > 10000),
+    aes(label = values), 
+    vjust = 1, color = "white", family = "DejaVuSans"
+  ) +
+  geom_text(
+    data = subset(df, values < 10000),
+    aes(label = values), 
+    vjust = 1, color = "black", family = "DejaVuSans"
+  ) +
+  labs(title = "Test CM") 
+
 
 ```
 
-```{r, include=F}
-cat("Train accuracy for distinguishing between stars and other classes\n")
+```{r}
 MCR_tr <- (CM_tr_stars_vs_rest[1, 1] + CM_tr_stars_vs_rest[2, 2]) / sum(CM_tr_stars_vs_rest) 
-cat(round(MCR_tr*100, 1), "%", sep="")
-
-cat("Test accuracy for distinguishing between stars and other classes\n")
 MCR_te <- (CM_te_stars_vs_rest[1, 1] + CM_te_stars_vs_rest[2, 2]) / sum(CM_te_stars_vs_rest) 
-cat(round(MCR_te*100, 1), "%", sep="")
 ```
 
 For the classification of stars versus other objects, the obtained train and test accuracies are 99.4% and 99.5%, respectively. Figure \ref{fig:fig3} shows the corresponding confusion matrices. The accuracy metric is a good choice in this case because the number of misclassification cases is low. Hence, stars are easy to distinguish from galaxies and quasars.
 
-```{r echo= F, fig.align='center', out.width="100%", fig.height=2.4, fig.cap="\\label{fig:fig3}Confusion matrices for train and test data for classification of stars versus other classes."}
+```{r out.width = "100%", fig.height = 2.4, fig.cap = "\\label{fig:fig3}Confusion matrices for train and test data for classification of stars versus other classes"}
 grid.arrange(plot1, plot2, ncol = 2)
 ```
 
 
 ```{r include = F}
-# Now, let us consider distinguishing quasars from other data. The confusion
-# matrix is as follows:
 CM_tr_quasars_vs_rest <- matrix(c(CM_tr[1, 1] + CM_tr[1, 3] + CM_tr[3, 1] + CM_tr[3, 3], 
                                 CM_tr[1, 2] + CM_tr[3, 2],
                                 CM_tr[2, 1] + CM_tr[2, 3],
@@ -281,32 +324,32 @@ CM_tr_quasars_vs_rest <- matrix(c(CM_tr[1, 1] + CM_tr[1, 3] + CM_tr[3, 1] + CM_t
 colnames(CM_tr_quasars_vs_rest) <- c("rest_tr", "QUA_tr")
 rownames(CM_tr_quasars_vs_rest) <- c("rest_pr", "QUA_pr")
 
-print("For train data")
-print(CM_tr_quasars_vs_rest)
+#print("For train data")
+#print(CM_tr_quasars_vs_rest)
 
+# Prepare df for plotting
 GT <- factor(c("Rest", "Quasars", "Rest", "Quasars"))
 predicted <- factor(c("Rest", "Rest", "Quasars", "Quasars"))
 values <- c(CM_tr_quasars_vs_rest)
 df <- data.frame(GT, predicted, values)
 
 # Visualise this CM
-plot1 <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+plot1 <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) + 
+  dejavu_layer + CM_layer +
   geom_tile(aes(fill = values), color = "white") +
-  geom_text(data = subset(df, values > 40000),
-            aes(label = values), 
-            vjust = 1, color = "white", fontface = "bold") +
-  geom_text(data = subset(df, values < 40000),
-            aes(label = values), 
-            vjust = 1, color = "black", fontface = "bold") +
-  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
-  theme_bw() +
-  scale_x_discrete(position = "top") +
-  scale_y_discrete(limits=rev) +
-  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
-       title = "Train CM") +
-  theme(title = element_text(size = 12, face = 'bold'),
-        axis.title = element_text(size = 10, face = "plain"))
+  geom_text(
+    data = subset(df, values > 40000),
+    aes(label = values), 
+    vjust = 1, color = "white", family = "DejaVuSans"
+  ) +
+  geom_text(
+    data = subset(df, values < 40000),
+    aes(label = values), 
+    vjust = 1, color = "black", family = "DejaVuSans"
+  ) +
+  labs(title = "Train CM") 
 
+#print(plot)
 
 CM_te_quasars_vs_rest <- matrix(c(CM_te[1, 1] + CM_te[1, 3] + CM_te[3, 1] + CM_te[3, 3], 
                                 CM_te[1, 2] + CM_te[3, 2],
@@ -316,32 +359,33 @@ CM_te_quasars_vs_rest <- matrix(c(CM_te[1, 1] + CM_te[1, 3] + CM_te[3, 1] + CM_t
 colnames(CM_te_quasars_vs_rest) <- c("rest_tr", "QUA_tr")
 rownames(CM_te_quasars_vs_rest) <- c("rest_pr", "QUA_pr")
 
-print("For test data")
-print(CM_te_quasars_vs_rest)
+#print("For test data")
+#print(CM_te_quasars_vs_rest)
 
+# Prepare df for plotting
 GT <- factor(c("Rest", "Quasars", "Rest", "Quasars"))
 predicted <- factor(c("Rest", "Rest", "Quasars", "Quasars"))
 values <- c(CM_te_quasars_vs_rest)
 df <- data.frame(GT, predicted, values)
 
 # Visualise this CM
-plot2 <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+plot2 <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) + 
+  dejavu_layer + CM_layer +
   geom_tile(aes(fill = values), color = "white") +
-  geom_text(data = subset(df, values > 6000),
-            aes(label = values), 
-            vjust = 1, color = "white", fontface = "bold") +
-  geom_text(data = subset(df, values < 6000),
-            aes(label = values), 
-            vjust = 1, color = "black", fontface = "bold") +
-  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
-  theme_bw() +
-  scale_x_discrete(position = "top") +
-  scale_y_discrete(limits=rev) +
+  geom_text(
+    data = subset(df, values > 6000),
+    aes(label = values),
+    vjust = 1, color = "white", family = "DejaVuSans"
+  ) +
+  geom_text(
+    data = subset(df, values < 6000),
+    aes(label = values),
+    vjust = 1, color = "black", family = "DejaVuSans"
+  ) +
   labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
-       title = "Test CM") +
-  theme(title = element_text(size = 12, face = 'bold'),
-        axis.title = element_text(size = 10, face = "plain"))
+       title = "Test CM") 
 
+#print(plot)
 
 # Here, we observe the large number of misclassification cases. To assess the
 # model performance, considering the data imbalance (low number of quasars wrt
@@ -367,7 +411,7 @@ cat("Test Phi coefficienct for distinguishing between quasars and other classes\
 ```
 For the classification of quasars versus other objects, the obtained train and test $\phi$ coefficients are 89.2% and 89.2%, respectively. Figure \ref{fig:fig4} shows the corresponding confusion matrices. The $\phi$ coefficient metric is a good choice in this case because of the considerable imbalance of quasars with respect to other classes and difficulty in distinguishing quasars from galaxies based on the studied spectral characteristics.
 
-```{r echo= F, fig.align='center', out.width="100%", fig.height=2.3, fig.cap="\\label{fig:fig4}Confusion matrices for train and test data for classification of quasars versus other classes."}
+```{r out.width = "100%", fig.height = 2.1, fig.cap = "\\label{fig:fig4}Confusion matrices for train and test data for classification of quasars versus other classes"}
 grid.arrange(plot1, plot2, ncol = 2)
 ```
 
@@ -376,7 +420,7 @@ Considering the considerable imbalance, the model performance is decent in
 distinguishing quasars from other classes.
 
 Finally, we assess the model performance in distinguishing galaxies from other classes. 
-```{r include=F}
+```{r include = F}
 
 CM_tr_galaxies_vs_rest <- matrix(c(CM_tr[2, 2] + CM_tr[2, 3] + CM_tr[3, 2] + CM_tr[3, 3], 
                                   CM_tr[1, 2] + CM_tr[1, 3],
@@ -386,31 +430,32 @@ CM_tr_galaxies_vs_rest <- matrix(c(CM_tr[2, 2] + CM_tr[2, 3] + CM_tr[3, 2] + CM_
 colnames(CM_tr_galaxies_vs_rest) <- c("rest_tr", "GAL_tr")
 rownames(CM_tr_galaxies_vs_rest) <- c("rest_pr", "GAL_pr")
 
-print("For train data")
-print(CM_tr_galaxies_vs_rest)
+#print("For train data")
+#print(CM_tr_galaxies_vs_rest)
+
+# Prepare df for plotting
 GT <- factor(c("Rest", "Galaxies", "Rest", "Galaxies"))
 predicted <- factor(c("Rest", "Rest", "Galaxies", "Galaxies"))
 values <- c(CM_tr_galaxies_vs_rest)
 df <- data.frame(GT, predicted, values)
 
 # Visualise this CM
-plot1 <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+plot1 <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) + 
+  dejavu_layer + CM_layer +
   geom_tile(aes(fill = values), color = "white") +
-  geom_text(data = subset(df, values > 30000),
-            aes(label = values), 
-            vjust = 1, color = "white", fontface = "bold") +
-  geom_text(data = subset(df, values < 30000),
-            aes(label = values), 
-            vjust = 1, color = "black", fontface = "bold") +
-  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
-  theme_bw() +
-  scale_x_discrete(position = "top") +
-  scale_y_discrete(limits=rev) +
-  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
-       title = "Train CM ") +
-  theme(title = element_text(size = 12, face = 'bold'),
-        axis.title = element_text(size = 10, face = "plain"))
+  geom_text(
+    data = subset(df, values > 30000),
+    aes(label = values),
+    vjust = 1, color = "white", family = "DejaVuSans"
+  ) +
+  geom_text(
+    data = subset(df, values < 30000),
+    aes(label = values),
+    vjust = 1, color = "black", family = "DejaVuSans"
+  ) +
+  labs(title = "Train CM") 
 
+#print(plot)
 
 CM_te_galaxies_vs_rest <- matrix(c(CM_te[2, 2] + CM_te[2, 3] + CM_te[3, 2] + CM_te[3, 3], 
                                   CM_te[1, 2] + CM_te[1, 3],
@@ -420,47 +465,48 @@ CM_te_galaxies_vs_rest <- matrix(c(CM_te[2, 2] + CM_te[2, 3] + CM_te[3, 2] + CM_
 colnames(CM_te_galaxies_vs_rest) <- c("rest_tr", "GAL_tr")
 rownames(CM_te_galaxies_vs_rest) <- c("rest_pr", "GAL_pr")
 
-print("For test data")
-print(CM_te_galaxies_vs_rest)
+#print("For test data")
+#print(CM_te_galaxies_vs_rest)
+
+# Prepare df for plotting
 GT <- factor(c("Rest", "Galaxies", "Rest", "Galaxies"))
 predicted <- factor(c("Rest", "Rest", "Galaxies", "Galaxies"))
 values <- c(CM_te_galaxies_vs_rest)
 df <- data.frame(GT, predicted, values)
 
 # Visualise this CM
-plot2 <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+plot2 <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) + 
+  dejavu_layer + CM_layer +
   geom_tile(aes(fill = values), color = "white") +
-  geom_text(data = subset(df, values > 6000),
-            aes(label = values), 
-            vjust = 1, color = "white", fontface = "bold") +
-  geom_text(data = subset(df, values < 6000),
-            aes(label = values), 
-            vjust = 1, color = "black", fontface = "bold") +
-  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
-  theme_bw() +
-  scale_x_discrete(position = "top") +
-  scale_y_discrete(limits=rev) +
-  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
-       title = "Test CM ") +
-  theme(title = element_text(size = 12, face = 'bold'),
-        axis.title = element_text(size = 10, face = "plain"))
+  geom_text(
+    data = subset(df, values > 6000),
+    aes(label = values), 
+    vjust = 1, color = "white", family = "DejaVuSans"
+  ) +
+  geom_text(
+    data = subset(df, values < 6000),
+    aes(label = values),
+    vjust = 1, color = "black", family = "DejaVuSans"
+  ) +
+  labs(title = "Test CM") 
 
-# For assessing the model performance for distinguishing galaxies from other classes,
-# we can use the accuracy metric because the imbalance is not a problem here. 
+#print(plot)
 
-cat("Train accuracy for distinguishing between galaxies and other classes\n")
-MCR_tr <- (CM_tr_galaxies_vs_rest[1, 1] + CM_tr_galaxies_vs_rest[2, 2]) / sum(CM_tr_galaxies_vs_rest) 
-cat(round(MCR_tr*100, 1), "%", sep="")
+#cat("Train accuracy for distinguishing between galaxies and other classes\n")
+numerator <- CM_tr_galaxies_vs_rest[1, 1] + CM_tr_galaxies_vs_rest[2, 2]
+MCR_tr <- numerator / sum(CM_tr_galaxies_vs_rest) 
+#cat(round(MCR_tr*100, 1), "%", sep="")
 
-cat("Test accuracy for distinguishing between galaxies and other classes\n")
-MCR_te <- (CM_te_galaxies_vs_rest[1, 1] + CM_te_galaxies_vs_rest[2, 2]) / sum(CM_te_galaxies_vs_rest) 
-cat(round(MCR_te*100, 1), "%", sep="")
+#cat("\nTest accuracy for distinguishing between galaxies and other classes\n")
+numerator <- CM_te_galaxies_vs_rest[1, 1] + CM_te_galaxies_vs_rest[2, 2]
+MCR_te <- numerator / sum(CM_te_galaxies_vs_rest) 
+#cat(round(MCR_te*100, 1), "%", sep="")
 
 ```
 
 For the classification of galaxies versus other objects, the obtained train and test accuracies are 96.2% and 96.2%, respectively. Figure \ref{fig:fig5} shows the corresponding confusion matrices. The accuracy metric is a good choice in this case because the number of false positives and false negatives is similar and the number of galaxies is quite balanced with respect to the number of other classes. 
 
-```{r echo= F, fig.align='center', out.width="100%", fig.height=2.2, fig.cap="\\label{fig:fig5}Confusion matrices for train and test data for classification of galaxies versus other classes."}
+```{r out.width = "100%", fig.height = 2.1, fig.cap = "\\label{fig:fig5}Confusion matrices for train and test data for classification of galaxies versus other classes"}
 grid.arrange(plot1, plot2, ncol = 2)
 ```
 
@@ -480,22 +526,45 @@ grid.arrange(plot1, plot2, ncol = 2)
 
 ## Full code
 
-```{r eval = F}
-################################################################################
+```{r eval = F, echo = T}
+##############################################################################
 # LIBRARIES
-################################################################################
-library(nnet)
+##############################################################################
+
+library(nnet) # logistic regression with multiple classes
 library(ggplot2)
-################################################################################
+library(sysfonts)
+
+# ggplot2 common theme
+dejavu_layer <- list(
+  theme_bw(),
+  theme(
+    text = element_text(family = "DejaVuSans", face = "bold", size = 11),
+    title = element_text(size = 12),
+    legend.text = element_text(face = "plain", size = 11),
+    axis.text = element_text(size = 10, family = "DejaVuSans", face = "plain"),
+    axis.title = element_text(size = 11, face = "plain")
+  )
+)
+
+##############################################################################
 # READING THE DATA
-################################################################################
+##############################################################################
+
 data <- read.csv("data/star_classification.csv", stringsAsFactors = TRUE)
-################################################################################
+
+##############################################################################
 # FEATURE SELECTION
-################################################################################
-# Now, let us see the correlation between features
-features <- data.frame(u = data$u, r = data$g, g = data$g, i = data$i, 
-                       z = data$z, spec_obj_ID = data$spec_obj_ID, 
+##############################################################################
+
+# Only spectroscopic features are selected
+# Let us see the correlation between spectroscopic features
+features <- data.frame(u = data$u, 
+                       r = data$g, 
+                       g = data$g, 
+                       i = data$i, 
+                       z = data$z, 
+                       spec_obj_ID = data$spec_obj_ID, 
                        redshift = data$redshift)
 target <- data$class
 
@@ -505,64 +574,82 @@ print(cor_mat)
 
 # We observe that r, g, u, and z are strongly correlated. 
 
-################################################################################
+##############################################################################
 # DATA PREPROCESSING
-################################################################################
+##############################################################################
+
+# Scale the features to zero mean and 1 std
 features <- scale(features)
+
+# Name preprocessed data as data_prep
 data_prep <- as.data.frame(cbind(target, features))
-n <- dim(data_prep)[1]
-# Data division
+
+# Data division to train and test
 set.seed(12345)
-tr_ind <- sample(1:n, floor(0.8*n))
+n <- dim(data_prep)[1]
+tr_ind <- sample(1:n, floor(0.8*n)) # 80% training data and 20% test data
 tr <- data_prep[tr_ind, ]
 te <- data_prep[-tr_ind, ]
-# logistic regression with multinom
-################################################################################
+
+##############################################################################
 # DATA VISUALISATION
-################################################################################
+##############################################################################
 
-# Let us visualise the distribution of data points as spec_obj_ID versus red_shift
-# colored by class
+# Let us visualise the distribution of data points as spec_obj_ID versus 
+# red_shift colored by class
 
-plot <- ggplot(data = te) + theme_bw() +
-  geom_point(mapping = aes(x = redshift, y = spec_obj_ID, 
-                           color = as.factor(target))) +
-  scale_color_manual(values = c("orange", "#d50000", "#4527a0"), 
-                     name = NULL,
-                     labels = c("Galaxies", "Quasars", "Stars")) + 
-  labs(title = paste0("Clusters of galaxies, quasars, and stars\nin the", 
-                      "redshift-spec_obj_ID coordinate system")) +
-  theme(panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        title = element_text(size = 12, face = 'bold'),
-        axis.title = element_text(size = 10, face = "plain")) 
+plot <- ggplot(data = te) + dejavu_layer +
+  geom_point(
+    mapping = aes(x = redshift, y = spec_obj_ID, color = as.factor(target)),
+    size = 2
+  ) +
+  scale_color_manual(
+    values = c("orange", "#d50000", "#4527a0"), 
+    name = NULL,
+    labels = c("Galaxies", "Quasars", "Stars")
+  ) + 
+  labs(title = "Clusters of Galaxies, Quasars, and Stars") +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.title = element_text(family = "DejaVuSansMono", face = "plain"),
+    axis.text = element_text(color = "black")
+  ) 
 
 print(plot)
 
-################################################################################
+# We can observe three distinct clusters 
+
+##############################################################################
 # LOGISTIC REGRESSION
-################################################################################
+##############################################################################
+
 logreg <- multinom(formula = target ~ ., data = tr)
 
+# predictions
 pred_tr <- predict(logreg, tr, type = "class")
 pred_te <- predict(logreg, te, type = "class")
-################################################################################
+
+##############################################################################
 # PERFORMANCE EVALUATION
-################################################################################
+##############################################################################
+
 CM_tr <- table(pred_tr, tr$target, deparse.level = 0)
 CM_te <- table(pred_te, te$target, deparse.level = 0)
+
 rownames(CM_te) <- c("GAL_pr", "QUA_pr", "STA_pr")
 colnames(CM_te) <- c("GAL_tr", "QUA_tr", "STA_tr")
 
 cat("The confusion matrix for train data is\n"); print(CM_tr)
 cat("The confusion matrix for test data is\n"); print(CM_te)
-# 1 is GALAXY, 2 is QUASAR, 3 is STAR
 
-# Let us introduce this renewed stars-versus-rest CM
-CM_tr_stars_vs_rest <- matrix(c(CM_tr[1, 1] + CM_tr[1, 2] + CM_tr[2, 1] + 
-                                  CM_tr[2, 2], 
+# Factors: 1 is GALAXY, 2 is QUASAR, 3 is STAR
+
+# Stars-versus-rest CM
+CM_tr_stars_vs_rest <- matrix(c(CM_tr[1, 1] + CM_tr[1, 2] + 
+                                  CM_tr[2, 1] + CM_tr[2, 2], 
                                 CM_tr[2, 3] + CM_tr[1, 3],
                                 CM_tr[3, 1] + CM_tr[3, 2],
                                 CM_tr[3, 3]), byrow = TRUE, ncol = 2)
@@ -572,33 +659,48 @@ rownames(CM_tr_stars_vs_rest) <- c("rest_pr", "STA_pr")
 
 print("For train data")
 print(CM_tr_stars_vs_rest)
+
 GT <- factor(c("Rest", "Stars", "Rest", "Stars"))
 predicted <- factor(c("Rest", "Rest", "Stars", "Stars"))
+
 values <- c(CM_tr_stars_vs_rest)
 df <- data.frame(GT, predicted, values)
 
+# Common elements for all plots with CMs:
+CM_layer <- list(
+  theme(
+    axis.text = element_text(family = "DejaVuSans", size = 11)
+  ),
+  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1"),
+  scale_x_discrete(position = "top"),
+  scale_y_discrete(limits = rev),
+  labs(
+    x = "Predicted", 
+    y = "Ground Truth", 
+    fill = "# Cases"
+  )
+)
+
 # Visualise this CM
-plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) + 
+  dejavu_layer + CM_layer +
   geom_tile(aes(fill = values), color = "white") +
-  geom_text(data = subset(df, values > 30000),
-            aes(label = values), 
-            vjust = 1, color = "white", fontface = "bold", family = "arial") +
-  geom_text(data = subset(df, values < 30000),
-            aes(label = values), 
-            vjust = 1, color = "black", fontface = "bold", family = "arial") +
-  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
-  theme_bw() +
-  scale_x_discrete(position = "top") +
-  scale_y_discrete(limits=rev) +
-  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
-       title = "Train CM for stars-versus-rest case") +
-  theme(title = element_text(size = 12, face = 'bold'),
-        axis.title = element_text(size = 10, face = "plain"))
+  geom_text(
+    data = subset(df, values > 40000),
+    aes(label = values),
+    vjust = 1, color = "white", family = "DejaVuSans"
+  ) +
+  geom_text(
+    data = subset(df, values < 40000),
+    aes(label = values), 
+    vjust = 1, color = "black", family = "DejaVuSans"
+  ) +
+  labs(title = "Train CM for Stars-Versus-Rest Case")
 
 print(plot)
 
-CM_te_stars_vs_rest <- matrix(c(CM_te[1, 1] + CM_te[1, 2] + CM_te[2, 1] + 
-                                  CM_te[2, 2], 
+CM_te_stars_vs_rest <- matrix(c(CM_te[1, 1] + CM_te[1, 2] + 
+                                  CM_te[2, 1] + CM_te[2, 2], 
                                 CM_te[2, 3] + CM_te[1, 3],
                                 CM_te[3, 1] + CM_te[3, 2],
                                 CM_te[3, 3]), byrow = TRUE, ncol = 2)
@@ -614,39 +716,37 @@ values <- c(CM_te_stars_vs_rest)
 df <- data.frame(GT, predicted, values)
 
 # Visualise this CM
-plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) + 
+  dejavu_layer + CM_layer +
   geom_tile(aes(fill = values), color = "white") +
-  geom_text(data = subset(df, values > 10000),
-            aes(label = values), 
-            vjust = 1, color = "white", fontface = "bold", family = "arial") +
-  geom_text(data = subset(df, values < 10000),
-            aes(label = values), 
-            vjust = 1, color = "black", fontface = "bold", family = "arial") +
-  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
-  theme_bw() +
-  scale_x_discrete(position = "top") +
-  scale_y_discrete(limits=rev) +
-  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
-       title = "Test CM for stars-versus-rest case") +
-  theme(title = element_text(size = 12, face = 'bold'),
-        axis.title = element_text(size = 10, face = "plain"))
+  geom_text(
+    data = subset(df, values > 10000),
+    aes(label = values), 
+    vjust = 1, color = "white", family = "DejaVuSans"
+  ) +
+  geom_text(
+    data = subset(df, values < 10000),
+    aes(label = values), 
+    vjust = 1, color = "black", family = "DejaVuSans"
+  ) +
+  labs(title = "Test CM for Stars-Versus-Rest Case") 
 
 print(plot)
 
 cat("Train accuracy for distinguishing between stars and other classes\n")
-MCR_tr <- (CM_tr_stars_vs_rest[1, 1] + CM_tr_stars_vs_rest[2, 2]) /
-  sum(CM_tr_stars_vs_rest) 
+numerator <- CM_tr_stars_vs_rest[1, 1] + CM_tr_stars_vs_rest[2, 2]
+MCR_tr <- numerator / sum(CM_tr_stars_vs_rest) 
 cat(round(MCR_tr*100, 1), "%", sep="")
 
-cat("Test accuracy for distinguishing between stars and other classes\n")
-MCR_te <- (CM_te_stars_vs_rest[1, 1] + CM_te_stars_vs_rest[2, 2]) / 
-  sum(CM_te_stars_vs_rest) 
+cat("\nTest accuracy for distinguishing between stars and other classes\n")
+numerator <- CM_te_stars_vs_rest[1, 1] + CM_te_stars_vs_rest[2, 2]
+MCR_te <- numerator / sum(CM_te_stars_vs_rest) 
 cat(round(MCR_te*100, 1), "%", sep="")
 
 # Now, let us consider distinguishing quasars from other data. The confusion
 # matrix is as follows:
-CM_tr_quasars_vs_rest <- matrix(c(CM_tr[1, 1] + CM_tr[1, 3] + CM_tr[3, 1] + 
-                                    CM_tr[3, 3], 
+CM_tr_quasars_vs_rest <- matrix(c(CM_tr[1, 1] + CM_tr[1, 3] + 
+                                    CM_tr[3, 1] + CM_tr[3, 3], 
                                 CM_tr[1, 2] + CM_tr[3, 2],
                                 CM_tr[2, 1] + CM_tr[2, 3],
                                 CM_tr[2, 2]), byrow = TRUE, ncol = 2)
@@ -657,33 +757,32 @@ rownames(CM_tr_quasars_vs_rest) <- c("rest_pr", "QUA_pr")
 print("For train data")
 print(CM_tr_quasars_vs_rest)
 
+# Prepare df for plotting
 GT <- factor(c("Rest", "Quasars", "Rest", "Quasars"))
 predicted <- factor(c("Rest", "Rest", "Quasars", "Quasars"))
 values <- c(CM_tr_quasars_vs_rest)
 df <- data.frame(GT, predicted, values)
 
 # Visualise this CM
-plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) + 
+  dejavu_layer + CM_layer +
   geom_tile(aes(fill = values), color = "white") +
-  geom_text(data = subset(df, values > 40000),
-            aes(label = values), 
-            vjust = 1, color = "white", fontface = "bold", family = "arial") +
-  geom_text(data = subset(df, values < 40000),
-            aes(label = values), 
-            vjust = 1, color = "black", fontface = "bold", family = "arial") +
-  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
-  theme_bw() +
-  scale_x_discrete(position = "top") +
-  scale_y_discrete(limits=rev) +
-  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
-       title = "Train CM for quasars-versus-rest case") +
-  theme(title = element_text(size = 12, face = 'bold'),
-        axis.title = element_text(size = 10, face = "plain"))
+  geom_text(
+    data = subset(df, values > 40000),
+    aes(label = values), 
+    vjust = 1, color = "white", family = "DejaVuSans"
+  ) +
+  geom_text(
+    data = subset(df, values < 40000),
+    aes(label = values), 
+    vjust = 1, color = "black", family = "DejaVuSans"
+  ) +
+  labs(title = "Train CM for Quasars-Versus-Rest Case") 
 
 print(plot)
 
-CM_te_quasars_vs_rest <- matrix(c(CM_te[1, 1] + CM_te[1, 3] + CM_te[3, 1] + 
-                                    CM_te[3, 3], 
+CM_te_quasars_vs_rest <- matrix(c(CM_te[1, 1] + CM_te[1, 3] + 
+                                    CM_te[3, 1] + CM_te[3, 3], 
                                 CM_te[1, 2] + CM_te[3, 2],
                                 CM_te[2, 1] + CM_te[2, 3],
                                 CM_te[2, 2]), byrow = TRUE, ncol = 2)
@@ -694,28 +793,28 @@ rownames(CM_te_quasars_vs_rest) <- c("rest_pr", "QUA_pr")
 print("For test data")
 print(CM_te_quasars_vs_rest)
 
+# Prepare df for plotting
 GT <- factor(c("Rest", "Quasars", "Rest", "Quasars"))
 predicted <- factor(c("Rest", "Rest", "Quasars", "Quasars"))
 values <- c(CM_te_quasars_vs_rest)
 df <- data.frame(GT, predicted, values)
 
 # Visualise this CM
-plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) + 
+  dejavu_layer + CM_layer +
   geom_tile(aes(fill = values), color = "white") +
-  geom_text(data = subset(df, values > 6000),
-            aes(label = values), 
-            vjust = 1, color = "white", fontface = "bold", family = "arial") +
-  geom_text(data = subset(df, values < 6000),
-            aes(label = values), 
-            vjust = 1, color = "black", fontface = "bold", family = "arial") +
-  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
-  theme_bw() +
-  scale_x_discrete(position = "top") +
-  scale_y_discrete(limits=rev) +
+  geom_text(
+    data = subset(df, values > 6000),
+    aes(label = values),
+    vjust = 1, color = "white", family = "DejaVuSans"
+  ) +
+  geom_text(
+    data = subset(df, values < 6000),
+    aes(label = values),
+    vjust = 1, color = "black", family = "DejaVuSans"
+  ) +
   labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
-       title = "Test CM for quasars-versus-rest case") +
-  theme(title = element_text(size = 12, face = 'bold'),
-        axis.title = element_text(size = 10, face = "plain"))
+       title = "Test CM for Quasars-Versus-Rest Case") 
 
 print(plot)
 
@@ -736,7 +835,7 @@ phi_coef <- function(M){
 
 cat("Train Phi coeff for distinguishing between quasars and other classes\n", 
     round(phi_coef(CM_tr_quasars_vs_rest)*100, 1), "%", sep = "")
-cat("Test Phi coeff for distinguishing between quasars and other classes\n", 
+cat("\nTest Phi coeff for distinguishing between quasars and other classes\n", 
     round(phi_coef(CM_te_quasars_vs_rest)*100, 1), "%", sep = "")
 
 # Considering the considerable imbalance, the model performance is decent in
@@ -745,8 +844,8 @@ cat("Test Phi coeff for distinguishing between quasars and other classes\n",
 # Finally, we want to assess the model performance in distinguishing galaxies 
 # from other classes. 
 
-CM_tr_galaxies_vs_rest <- matrix(c(CM_tr[2, 2] + CM_tr[2, 3] + CM_tr[3, 2] +
-                                     CM_tr[3, 3], 
+CM_tr_galaxies_vs_rest <- matrix(c(CM_tr[2, 2] + CM_tr[2, 3] +
+                                     CM_tr[3, 2] + CM_tr[3, 3], 
                                   CM_tr[1, 2] + CM_tr[1, 3],
                                   CM_tr[2, 1] + CM_tr[3, 1],
                                   CM_tr[1, 1]), byrow = TRUE, ncol = 2)
@@ -756,33 +855,33 @@ rownames(CM_tr_galaxies_vs_rest) <- c("rest_pr", "GAL_pr")
 
 print("For train data")
 print(CM_tr_galaxies_vs_rest)
+
+# Prepare df for plotting
 GT <- factor(c("Rest", "Galaxies", "Rest", "Galaxies"))
 predicted <- factor(c("Rest", "Rest", "Galaxies", "Galaxies"))
 values <- c(CM_tr_galaxies_vs_rest)
 df <- data.frame(GT, predicted, values)
 
 # Visualise this CM
-plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) + 
+  dejavu_layer + CM_layer +
   geom_tile(aes(fill = values), color = "white") +
-  geom_text(data = subset(df, values > 30000),
-            aes(label = values), 
-            vjust = 1, color = "white", fontface = "bold", family = "arial") +
-  geom_text(data = subset(df, values < 30000),
-            aes(label = values), 
-            vjust = 1, color = "black", fontface = "bold", family = "arial") +
-  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
-  theme_bw() +
-  scale_x_discrete(position = "top") +
-  scale_y_discrete(limits=rev) +
-  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
-       title = "Train CM for galaxies-versus-rest case") +
-  theme(title = element_text(size = 12, face = 'bold'),
-        axis.title = element_text(size = 10, face = "plain"))
+  geom_text(
+    data = subset(df, values > 30000),
+    aes(label = values),
+    vjust = 1, color = "white", family = "DejaVuSans"
+  ) +
+  geom_text(
+    data = subset(df, values < 30000),
+    aes(label = values),
+    vjust = 1, color = "black", family = "DejaVuSans"
+  ) +
+  labs(title = "Train CM for Galaxies-Versus-Rest Case") 
 
 print(plot)
 
-CM_te_galaxies_vs_rest <- matrix(c(CM_te[2, 2] + CM_te[2, 3] + CM_te[3, 2] + 
-                                     CM_te[3, 3], 
+CM_te_galaxies_vs_rest <- matrix(c(CM_te[2, 2] + CM_te[2, 3] +
+                                     CM_te[3, 2] + CM_te[3, 3], 
                                   CM_te[1, 2] + CM_te[1, 3],
                                   CM_te[2, 1] + CM_te[3, 1],
                                   CM_te[1, 1]), byrow = TRUE, ncol = 2)
@@ -792,45 +891,45 @@ rownames(CM_te_galaxies_vs_rest) <- c("rest_pr", "GAL_pr")
 
 print("For test data")
 print(CM_te_galaxies_vs_rest)
+
+# Prepare df for plotting
 GT <- factor(c("Rest", "Galaxies", "Rest", "Galaxies"))
 predicted <- factor(c("Rest", "Rest", "Galaxies", "Galaxies"))
 values <- c(CM_te_galaxies_vs_rest)
 df <- data.frame(GT, predicted, values)
 
 # Visualise this CM
-plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) +
+plot <- ggplot(data =  df, mapping = aes(x = predicted, y = GT)) + 
+  dejavu_layer + CM_layer +
   geom_tile(aes(fill = values), color = "white") +
-  geom_text(data = subset(df, values > 6000),
-            aes(label = values), 
-            vjust = 1, color = "white", fontface = "bold", family = "arial") +
-  geom_text(data = subset(df, values < 6000),
-            aes(label = values), 
-            vjust = 1, color = "black", fontface = "bold", family = "arial") +
-  scale_fill_gradient(low = "#bbdefb", high = "#0d47a1") +
-  theme_bw() +
-  scale_x_discrete(position = "top") +
-  scale_y_discrete(limits=rev) +
-  labs(x = "Predicted", y = "Ground Truth", fill = "# cases",
-       title = "Test CM for galaxies-versus-rest case") +
-  theme(title = element_text(size = 12, face = 'bold'),
-        axis.title = element_text(size = 10, face = "plain"))
+  geom_text(
+    data = subset(df, values > 6000),
+    aes(label = values), 
+    vjust = 1, color = "white", family = "DejaVuSans"
+  ) +
+  geom_text(
+    data = subset(df, values < 6000),
+    aes(label = values),
+    vjust = 1, color = "black", family = "DejaVuSans"
+  ) +
+  labs(title = "Test CM for Galaxies-Versus-Rest Case") 
 
 print(plot)
-# For assessing the model performance for distinguishing galaxies from other classes,
-# we can use the accuracy metric because the imbalance is not a problem here. 
 
 cat("Train accuracy for distinguishing between galaxies and other classes\n")
-MCR_tr <- (CM_tr_galaxies_vs_rest[1, 1] + CM_tr_galaxies_vs_rest[2, 2]) / 
-  sum(CM_tr_galaxies_vs_rest) 
+numerator <- CM_tr_galaxies_vs_rest[1, 1] + CM_tr_galaxies_vs_rest[2, 2]
+MCR_tr <- numerator / sum(CM_tr_galaxies_vs_rest) 
 cat(round(MCR_tr*100, 1), "%", sep="")
 
-cat("Test accuracy for distinguishing between galaxies and other classes\n")
-MCR_te <- (CM_te_galaxies_vs_rest[1, 1] + CM_te_galaxies_vs_rest[2, 2]) / 
-  sum(CM_te_galaxies_vs_rest) 
+cat("\nTest accuracy for distinguishing between galaxies and other classes\n")
+numerator <- CM_te_galaxies_vs_rest[1, 1] + CM_te_galaxies_vs_rest[2, 2]
+MCR_te <- numerator / sum(CM_te_galaxies_vs_rest) 
 cat(round(MCR_te*100, 1), "%", sep="")
-################################################################################
+
+##############################################################################
 # CLASS DISTRIBUTION
-################################################################################
+##############################################################################
+
 # Visualise the distribution of classes
 classes = c("GALAXY", "STAR", "QSO")
 counts = numeric(3)
@@ -840,35 +939,39 @@ for (i in 1:3){
 
 df_classes <- data.frame(classes = classes, counts = counts)
 
-plot <- ggplot(data = df_classes, mapping = aes(x = counts, 
-                                                y = reorder(classes, counts))) + 
-  theme_bw() +
+plot <- ggplot(data = df_classes, 
+               mapping = aes(x = counts, y = reorder(classes, counts))) + 
+  dejavu_layer +
   geom_bar(stat = "identity", fill = "darkblue", alpha = .6, width = .4,
            color = "black") +
   labs(title = "Distribution of Classes", x = "", y = "") +
-  theme(panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        title = element_text(size = 12, face = 'bold')) +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.text = element_text(color = "black")
+  ) +
   scale_x_continuous(expand = c(0, 10), limits = c(0, 70000)) +
   geom_text(
     aes(1000, y = classes, label = c("Galaxies", "Stars", "Quasars")),
     hjust = 0,
     nudge_x = 0,
     color = "white",
-    family = "Calibri",
-    size = 7
+    size = 7,
+    family = "DejaVuSans"
   ) +
   geom_text(
     aes(counts + 1000, y = classes, label = counts),
     hjust = 0,
     nudge_x = 0.3,
     colour = "black",
-    family = "Calibri",
-    size = 6
+    size = 6,
+    family = "DejaVuSansCondensed"
   )
+
 print(plot)
 
+ 
  
 ```
