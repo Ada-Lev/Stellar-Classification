@@ -10,7 +10,7 @@ library(sysfonts)
 dejavu_layer <- list(
   theme_bw(),
   theme(
-    text = element_text(family = "DejaVuSans", face = "bold", size = 11),
+    text = element_text(family = "Bitter", face = "bold", size = 11),
     title = element_text(size = 12),
     legend.text = element_text(face = "plain", size = 11),
     axis.text = element_text(size = 10, family = "DejaVuSans", face = "plain"),
@@ -41,7 +41,7 @@ target <- data$class
 
 # Compute the correlation matrix
 cor_mat <- cor(features)
-print(cor_mat)
+print(round(cor_mat, 3))
 
 # We observe that r, g, u, and z are strongly correlated. 
 
@@ -162,7 +162,7 @@ plot_CM <- function(df, boundary, title){
     scale_x_discrete(position = "top") +
     scale_y_discrete(limits = rev) +
     theme(
-      axis.text = element_text(family = "DejaVuSans", size = 11)
+      axis.text = element_text(family = "Bitter", size = 11)
     )
   
   return(list(plot))
