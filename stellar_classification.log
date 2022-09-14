@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.9.9)  10 SEP 2022 18:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.9.9)  14 SEP 2022 10:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -326,45 +326,304 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \float@box=\box54
 \@float@everytoks=\toks26
 \@floatcapt=\box55
-) (/home/ada/.TinyTeX/texmf-dist/tex/latex/libertine/biolinum.sty
-Package: biolinum 2020/03/26 (Bob Tennent) Supports Biolinum fonts for all LaTeX engines.
-(/home/ada/.TinyTeX/texmf-dist/tex/generic/iftex/ifxetex.sty
-Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
-) (/home/ada/.TinyTeX/texmf-dist/tex/generic/iftex/ifluatex.sty
-Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
-) (/home/ada/.TinyTeX/texmf-dist/tex/latex/xkeyval/xkeyval.sty
-Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
-(/home/ada/.TinyTeX/texmf-dist/tex/generic/xkeyval/xkeyval.tex (/home/ada/.TinyTeX/texmf-dist/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks27
-\XKV@tempa@toks=\toks28
-)
-\XKV@depth=\count290
-File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
-)) (/home/ada/.TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
-Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-) (/home/ada/.TinyTeX/texmf-dist/tex/latex/fontaxes/fontaxes.sty
-Package: fontaxes 2020/07/21 v1.0e Font selection axes
-LaTeX Info: Redefining \upshape on input line 29.
-LaTeX Info: Redefining \itshape on input line 31.
-LaTeX Info: Redefining \slshape on input line 33.
-LaTeX Info: Redefining \swshape on input line 35.
-LaTeX Info: Redefining \scshape on input line 37.
-LaTeX Info: Redefining \sscshape on input line 39.
-LaTeX Info: Redefining \ulcshape on input line 41.
-LaTeX Info: Redefining \textsw on input line 47.
-LaTeX Info: Redefining \textssc on input line 48.
-LaTeX Info: Redefining \textulc on input line 49.
+) (/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
+Package: tcolorbox 2022/06/24 version 5.1.1 text color boxes
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (/home/ada/.TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks27
+\pgfutil@tempdima=\dimen166
+\pgfutil@tempdimb=\dimen167
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-lists.tex)) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+\pgfutil@abb=\box56
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+Package: pgfrcs 2021/05/15 v3.1.9a (3.1.9a)
 ))
-LaTeX Font Info:    Trying to load font information for T1+LinuxBiolinumT-TLF on input line 120.
-(/home/ada/.TinyTeX/texmf-dist/tex/latex/libertine/T1LinuxBiolinumT-TLF.fd
-File: T1LinuxBiolinumT-TLF.fd 2017/03/20 (autoinst) Font definitions for T1/LinuxBiolinumT-TLF.
+Package: pgf 2021/05/15 v3.1.9a (3.1.9a)
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (/home/ada/.TinyTeX/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+Package: pgfsys 2021/05/15 v3.1.9a (3.1.9a)
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks28
+\pgfkeys@temptoks=\toks29
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.tex
+\pgfkeys@tmptoks=\toks30
+))
+\pgf@x=\dimen168
+\pgf@y=\dimen169
+\pgf@xa=\dimen170
+\pgf@ya=\dimen171
+\pgf@xb=\dimen172
+\pgf@yb=\dimen173
+\pgf@xc=\dimen174
+\pgf@yc=\dimen175
+\pgf@xd=\dimen176
+\pgf@yd=\dimen177
+\w@pgf@writea=\write4
+\r@pgf@reada=\read3
+\c@pgf@counta=\count290
+\c@pgf@countb=\count291
+\c@pgf@countc=\count292
+\c@pgf@countd=\count293
+\t@pgf@toka=\toks31
+\t@pgf@tokb=\toks32
+\t@pgf@tokc=\toks33
+\pgf@sys@id@count=\count294
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+File: pgf.cfg 2021/05/15 v3.1.9a (3.1.9a)
 )
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 10.0pt on input line 120.
-(/home/ada/.TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+Driver file for pgf: pgfsys-pdftex.def
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+File: pgfsys-pdftex.def 2021/05/15 v3.1.9a (3.1.9a)
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
+File: pgfsys-common-pdf.def 2021/05/15 v3.1.9a (3.1.9a)
+))) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+\pgfsyssoftpath@smallbuffer@items=\count295
+\pgfsyssoftpath@bigbuffer@items=\count296
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
+File: pgfsysprotocol.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+)) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+Package: pgfcore 2021/05/15 v3.1.9a (3.1.9a)
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen178
+\pgfmath@count=\count297
+\pgfmath@box=\box57
+\pgfmath@toks=\toks34
+\pgfmath@stack@operand=\toks35
+\pgfmath@stack@operation=\toks36
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex))) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count298
+)) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
+File: pgfcorepoints.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+\pgf@picminx=\dimen179
+\pgf@picmaxx=\dimen180
+\pgf@picminy=\dimen181
+\pgf@picmaxy=\dimen182
+\pgf@pathminx=\dimen183
+\pgf@pathmaxx=\dimen184
+\pgf@pathminy=\dimen185
+\pgf@pathmaxy=\dimen186
+\pgf@xx=\dimen187
+\pgf@xy=\dimen188
+\pgf@yx=\dimen189
+\pgf@yy=\dimen190
+\pgf@zx=\dimen191
+\pgf@zy=\dimen192
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+\pgf@path@lastx=\dimen193
+\pgf@path@lasty=\dimen194
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
+File: pgfcorepathusage.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+\pgf@shorten@end@additional=\dimen195
+\pgf@shorten@start@additional=\dimen196
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
+File: pgfcorescopes.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+\pgfpic=\box58
+\pgf@hbox=\box59
+\pgf@layerbox@main=\box60
+\pgf@picture@serial@count=\count299
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+\pgflinewidth=\dimen197
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
+File: pgfcoretransformations.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+\pgf@pt@x=\dimen198
+\pgf@pt@y=\dimen199
+\pgf@pt@temp=\dimen256
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+File: pgfcorequick.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
+File: pgfcoreobjects.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
+File: pgfcorearrows.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+\pgfarrowsep=\dimen257
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+File: pgfcoreshade.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+\pgf@max=\dimen258
+\pgf@sys@shading@range@num=\count300
+\pgf@shadingcount=\count301
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+File: pgfcoreimage.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
+File: pgfcoreexternal.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+\pgfexternal@startupbox=\box61
+)) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
+File: pgfcorelayers.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
+File: pgfcoretransparency.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
+File: pgfcorepatterns.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
+File: pgfcorerdf.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+))) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+File: pgfmoduleshapes.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+\pgfnodeparttextbox=\box62
+) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+File: pgfmoduleplot.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+) (/home/ada/.TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
+Package: pgfcomp-version-0-65 2021/05/15 v3.1.9a (3.1.9a)
+\pgf@nodesepstart=\dimen259
+\pgf@nodesepend=\dimen260
+) (/home/ada/.TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
+Package: pgfcomp-version-1-18 2021/05/15 v3.1.9a (3.1.9a)
+)) (/home/ada/.TinyTeX/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2020-07-07 v1.5u LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks37
+\verbatim@line=\toks38
+\verbatim@in@stream=\read4
+) (/home/ada/.TinyTeX/texmf-dist/tex/latex/environ/environ.sty
+Package: environ 2014/05/04 v0.3 A new way to define environments
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/trimspaces/trimspaces.sty
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+))
+\tcb@titlebox=\box63
+\tcb@upperbox=\box64
+\tcb@lowerbox=\box65
+\tcb@phantombox=\box66
+\c@tcbbreakpart=\count302
+\c@tcblayer=\count303
+\c@tcolorbox@number=\count304
+\tcb@temp=\box67
+\tcb@temp=\box68
+\tcb@temp=\box69
+\tcb@temp=\box70
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcbraster.code.tex
+Library (tcolorbox): 'tcbraster.code.tex' version '5.1.1'
+\c@tcbrastercolumn=\count305
+\c@tcbrasterrow=\count306
+\c@tcbrasternum=\count307
+\c@tcbraster=\count308
+) (/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcbskins.code.tex
+Library (tcolorbox): 'tcbskins.code.tex' version '5.1.1'
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (/home/ada/.TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (/home/ada/.TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (/home/ada/.TinyTeX/texmf-dist/tex/latex/pgf/math/pgfmath.sty (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2021/05/15 v3.1.9a (3.1.9a)
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
+\pgffor@iter=\dimen261
+\pgffor@skip=\dimen262
+\pgffor@stack=\toks39
+\pgffor@toks=\toks40
+)) (/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+Package: tikz 2021/05/15 v3.1.9a (3.1.9a)
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+\pgf@plot@mark@count=\count309
+\pgfplotmarksize=\dimen263
+)
+\tikz@lastx=\dimen264
+\tikz@lasty=\dimen265
+\tikz@lastxsaved=\dimen266
+\tikz@lastysaved=\dimen267
+\tikz@lastmovetox=\dimen268
+\tikz@lastmovetoy=\dimen269
+\tikzleveldistance=\dimen270
+\tikzsiblingdistance=\dimen271
+\tikz@figbox=\box71
+\tikz@figbox@bg=\box72
+\tikz@tempbox=\box73
+\tikz@tempbox@bg=\box74
+\tikztreelevel=\count310
+\tikznumberofchildren=\count311
+\tikznumberofcurrentchild=\count312
+\tikz@fig@count=\count313
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+File: pgfmodulematrix.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+\pgfmatrixcurrentrow=\count314
+\pgfmatrixcurrentcolumn=\count315
+\pgf@matrix@numberofcolumns=\count316
+)
+\tikz@expandcount=\count317
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+)))
+\tcb@waterbox=\box75
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcbskinsjigsaw.code.tex
+Library (tcolorbox): 'tcbskinsjigsaw.code.tex' version '5.1.1'
+)) (/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcbbreakable.code.tex
+Library (tcolorbox): 'tcbbreakable.code.tex' version '5.1.1'
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/oberdiek/pdfcol.sty
+Package: pdfcol 2019/12/29 v1.6 Handle new color stacks for pdfTeX (HO)
+)
+Package pdfcol Info: New color stack `tcb@breakable' = 1 on input line 23.
+\tcb@testbox=\box76
+\tcb@totalupperbox=\box77
+\tcb@totallowerbox=\box78
+) (/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcbhooks.code.tex
+Library (tcolorbox): 'tcbhooks.code.tex' version '5.1.1'
+) (/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcbtheorems.code.tex
+Library (tcolorbox): 'tcbtheorems.code.tex' version '5.1.1'
+) (/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcbfitting.code.tex
+Library (tcolorbox): 'tcbfitting.code.tex' version '5.1.1'
+\tcbfitdim=\dimen272
+\tcb@lowerfitdim=\dimen273
+\tcb@upperfitdim=\dimen274
+\tcb@cur@hbadness=\count318
+) (/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcblistingsutf8.code.tex
+Library (tcolorbox): 'tcblistingsutf8.code.tex' version '5.1.1'
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcblistings.code.tex
+Library (tcolorbox): 'tcblistings.code.tex' version '5.1.1'
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count319
+\lst@gtempboxa=\box79
+\lst@token=\toks41
+\lst@length=\count320
+\lst@currlwidth=\dimen275
+\lst@column=\count321
+\lst@pos=\count322
+\lst@lostspace=\dimen276
+\lst@width=\dimen277
+\lst@newlines=\count323
+\lst@lineno=\count324
+\lst@maxwidth=\dimen278
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
+\c@lstnumber=\count325
+\lst@skipnumbers=\count326
+\lst@framebox=\box80
+) (/home/ada/.TinyTeX/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2020/03/24 1.8d listings configuration
+))
+Package: listings 2020/03/24 1.8d (Carsten Heinz)
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcblistingscore.code.tex
+Library (tcolorbox): 'tcblistingscore.code.tex' version '5.1.1'
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcbprocessing.code.tex
+Library (tcolorbox): 'tcbprocessing.code.tex' version '5.1.1'
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/tools/shellesc.sty
+Package: shellesc 2019/11/08 v1.0c unified shell escape interface for LaTeX
+Package shellesc Info: Restricted shell escape enabled on input line 77.
+))
+\c@tcblisting=\count327
+)) (/home/ada/.TinyTeX/texmf-dist/tex/latex/listingsutf8/listingsutf8.sty
+Package: listingsutf8 2019-12-10 v1.5 Allow UTF-8 in listings input (HO)
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/stringenc/stringenc.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
+))) (/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcbexternal.code.tex
+Library (tcolorbox): 'tcbexternal.code.tex' version '5.1.1'
+) (/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcbmagazine.code.tex
+Library (tcolorbox): 'tcbmagazine.code.tex' version '5.1.1'
+) (/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcbvignette.code.tex
+Library (tcolorbox): 'tcbvignette.code.tex' version '5.1.1'
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryfadings.code.tex
+File: tikzlibraryfadings.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+(/home/ada/.TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibraryfadings.code.tex
+File: pgflibraryfadings.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+))) (/home/ada/.TinyTeX/texmf-dist/tex/latex/tcolorbox/tcbposter.code.tex
+Library (tcolorbox): 'tcbposter.code.tex' version '5.1.1'
+)) (/home/ada/.TinyTeX/texmf-dist/tex/latex/dejavu/DejaVuSerif.sty
+Package: DejaVuSerif 2011/06/01 Style file for DejaVuSerif.
+) (/home/ada/.TinyTeX/texmf-dist/tex/latex/eulervm/eulervm.sty
+Package: eulervm 2005/01/11 v4.0 (WaS)
+) (/home/ada/.TinyTeX/texmf-dist/tex/latex/dejavu/DejaVuSansMono.sty
+Package: DejaVuSansMono 2011/06/01 Style file for DejaVuSansMono.
+) (/home/ada/.TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+LaTeX Font Info:    Trying to load font information for T1+DejaVuSerif-TLF on input line 112.
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/dejavu/T1DejaVuSerif-TLF.fd
+File: T1DejaVuSerif-TLF.fd 2011/06/01 Font definitions for T1/DejaVuSerif-TLF.
+)) (/home/ada/.TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-08-30 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count291
-\l__pdf_internal_box=\box56
+\l__color_backend_stack_int=\count328
+\l__pdf_internal_box=\box81
 ) (./stellar_classification.aux
 
 LaTeX Warning: Label `fig:fig1' multiply defined.
@@ -372,34 +631,40 @@ LaTeX Warning: Label `fig:fig1' multiply defined.
 )
 \openout1 = `stellar_classification.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 120.
-LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 123.
+LaTeX Font Info:    ... okay on input line 123.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 123.
+LaTeX Font Info:    ... okay on input line 123.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 123.
+LaTeX Font Info:    ... okay on input line 123.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 123.
+LaTeX Font Info:    ... okay on input line 123.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 123.
+LaTeX Font Info:    ... okay on input line 123.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 123.
+LaTeX Font Info:    ... okay on input line 123.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 123.
+LaTeX Font Info:    ... okay on input line 123.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 123.
+LaTeX Font Info:    ... okay on input line 123.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 123.
+LaTeX Font Info:    ... okay on input line 123.
 (/home/ada/.TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/grfext/grfext.sty
+Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
+)
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 504.
 (/home/ada/.TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring OFF on input line 120.
+Package hyperref Info: Link coloring OFF on input line 123.
 (./stellar_classification.out) (./stellar_classification.out)
-\@outlinefile=\write4
-\openout4 = `stellar_classification.out'.
+\@outlinefile=\write5
+\openout5 = `stellar_classification.out'.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -435,66 +700,27 @@ Package hyperref Info: Link coloring OFF on input line 120.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@mv@tabular=\count292
-\c@mv@boldtabular=\count293
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 17.28pt on input line 122.
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
-(Font)              scaled to size 17.28pt on input line 122.
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 12.0pt on input line 122.
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 122.
-(/home/ada/.TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
-File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+\c@lstlisting=\count329
+LaTeX Font Info:    Trying to load font information for U+zeur on input line 125.
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/eulervm/uzeur.fd
+File: uzeur.fd 2005/01/11 v4.0 (WaS)
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 122.
-(/home/ada/.TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
-File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+LaTeX Font Info:    Trying to load font information for U+zeus on input line 125.
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/eulervm/uzeus.fd
+File: uzeus.fd 2005/01/11 v4.0 (WaS)
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 122.
-(/home/ada/.TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
-File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+LaTeX Font Info:    Trying to load font information for U+zeuex on input line 125.
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/eulervm/uzeuex.fd
+File: uzeuex.fd 2005/01/11 v4.0 (WaS)
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 122.
-(/home/ada/.TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
-File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+LaTeX Font Info:    Trying to load font information for T1+DejaVuSansMono-TLF on input line 139.
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/dejavu/T1DejaVuSansMono-TLF.fd
+File: T1DejaVuSansMono-TLF.fd 2011/06/01 Font definitions for T1/DejaVuSansMono-TLF.
 )
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 122.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 122.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 122.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 122.
-(/home/ada/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 122.
-(/home/ada/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
-(Font)              scaled to size 12.0pt on input line 122.
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
-(Font)              scaled to size 10.0pt on input line 125.
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 128.
-(/home/ada/.TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 130.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 130.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 130.
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 14.4pt on input line 135.
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
-(Font)              scaled to size 14.4pt on input line 135.
-<stellar_classification_files/figure-latex/fig1-1.pdf, id=41, 469.755pt x 325.215pt>
+<stellar_classification_files/figure-latex/fig1-1.pdf, id=80, 469.755pt x 325.215pt>
 File: stellar_classification_files/figure-latex/fig1-1.pdf Graphic file (type pdf)
 <use stellar_classification_files/figure-latex/fig1-1.pdf>
-Package pdftex.def Info: stellar_classification_files/figure-latex/fig1-1.pdf  used on input line 150.
+Package pdftex.def Info: stellar_classification_files/figure-latex/fig1-1.pdf  used on input line 162.
 (pdftex.def)             Requested size: 281.85518pt x 195.1305pt.
 [1
 
@@ -502,109 +728,118 @@ Package pdftex.def Info: stellar_classification_files/figure-latex/fig1-1.pdf  u
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.172 
-       <./stellar_classification_files/figure-latex/fig1-1.pdf>]
-<stellar_classification_files/figure-latex/unnamed-chunk-4-1.pdf, id=65, 469.755pt x 325.215pt>
+l.180 F
+       irst, \tcbox{\texttt{obj-ID}} is the object identifier, the unique <./stellar_classification_files/figure-latex/fig1-1.pdf>]
+<stellar_classification_files/figure-latex/unnamed-chunk-4-1.pdf, id=109, 469.755pt x 325.215pt>
 File: stellar_classification_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (type pdf)
 <use stellar_classification_files/figure-latex/unnamed-chunk-4-1.pdf>
-Package pdftex.def Info: stellar_classification_files/figure-latex/unnamed-chunk-4-1.pdf  used on input line 225.
+Package pdftex.def Info: stellar_classification_files/figure-latex/unnamed-chunk-4-1.pdf  used on input line 239.
 (pdftex.def)             Requested size: 281.85518pt x 195.1305pt.
-[2
+[2]
+<stellar_classification_files/figure-latex/unnamed-chunk-8-1.pdf, id=119, 469.755pt x 172.645pt>
+File: stellar_classification_files/figure-latex/unnamed-chunk-8-1.pdf Graphic file (type pdf)
+<use stellar_classification_files/figure-latex/unnamed-chunk-8-1.pdf>
+Package pdftex.def Info: stellar_classification_files/figure-latex/unnamed-chunk-8-1.pdf  used on input line 272.
+(pdftex.def)             Requested size: 469.75386pt x 172.64456pt.
+[3
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.237 
+l.278 
        <./stellar_classification_files/figure-latex/unnamed-chunk-4-1.pdf>]
-<stellar_classification_files/figure-latex/unnamed-chunk-8-1.pdf, id=81, 469.755pt x 172.645pt>
-File: stellar_classification_files/figure-latex/unnamed-chunk-8-1.pdf Graphic file (type pdf)
-<use stellar_classification_files/figure-latex/unnamed-chunk-8-1.pdf>
-Package pdftex.def Info: stellar_classification_files/figure-latex/unnamed-chunk-8-1.pdf  used on input line 257.
-(pdftex.def)             Requested size: 469.75386pt x 172.64456pt.
-<stellar_classification_files/figure-latex/unnamed-chunk-11-1.pdf, id=83, 469.755pt x 165.61874pt>
+<stellar_classification_files/figure-latex/unnamed-chunk-11-1.pdf, id=141, 469.755pt x 165.61874pt>
 File: stellar_classification_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (type pdf)
 <use stellar_classification_files/figure-latex/unnamed-chunk-11-1.pdf>
-Package pdftex.def Info: stellar_classification_files/figure-latex/unnamed-chunk-11-1.pdf  used on input line 274.
+Package pdftex.def Info: stellar_classification_files/figure-latex/unnamed-chunk-11-1.pdf  used on input line 289.
 (pdftex.def)             Requested size: 469.75386pt x 165.61833pt.
-[3
+<stellar_classification_files/figure-latex/unnamed-chunk-13-1.pdf, id=143, 469.755pt x 158.5925pt>
+File: stellar_classification_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (type pdf)
+<use stellar_classification_files/figure-latex/unnamed-chunk-13-1.pdf>
+Package pdftex.def Info: stellar_classification_files/figure-latex/unnamed-chunk-13-1.pdf  used on input line 311.
+(pdftex.def)             Requested size: 469.75386pt x 158.59209pt.
+[4
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.280 
-       <./stellar_classification_files/figure-latex/unnamed-chunk-8-1.pdf>]
-<stellar_classification_files/figure-latex/unnamed-chunk-13-1.pdf, id=100, 469.755pt x 158.5925pt>
-File: stellar_classification_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (type pdf)
-<use stellar_classification_files/figure-latex/unnamed-chunk-13-1.pdf>
-Package pdftex.def Info: stellar_classification_files/figure-latex/unnamed-chunk-13-1.pdf  used on input line 296.
-(pdftex.def)             Requested size: 469.75386pt x 158.59209pt.
-[4
+l.317 
+      
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.330 
-      
+l.317 
+       <./stellar_classification_files/figure-latex/unnamed-chunk-8-1.pdf> <./stellar_classification_files/figure-latex/unnamed-chunk-11-1.pdf
+
+pdfTeX warning: pdflatex (file ./stellar_classification_files/figure-latex/unnamed-chunk-11-1.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>]
+Underfull \hbox (badness 3333) in paragraph at lines 350--353
+\T1/DejaVuSerif-TLF/m/n/10 [1] []$https : / / www . kaggle . com / datasets / fedesoriano / stellar -[] classi^^\cation -[] dataset -[] sdss17$[] (The
+ []
+
+LaTeX Font Info:    Trying to load font information for TS1+DejaVuSansMono-TLF on input line 417.
+(/home/ada/.TinyTeX/texmf-dist/tex/latex/dejavu/TS1DejaVuSansMono-TLF.fd
+File: TS1DejaVuSansMono-TLF.fd 2011/06/01 Font definitions for TS1/DejaVuSansMono-TLF.
+) [5
 pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.330 
-       <./stellar_classification_files/figure-latex/unnamed-chunk-11-1.pdf> <./stellar_classification_files/figure-latex/unnamed-chunk-13-1.pdf>]
-LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 346.
-
-LaTeX Font Warning: Font shape `T1/lmtt/bx/it' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 346.
-
-LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 401.
-(/home/ada/.TinyTeX/texmf-dist/tex/latex/lm/ts1lmtt.fd
-File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [5]
-Underfull \vbox (badness 10000) detected at line 735
+l.751 \end{Shaded}
+                   <./stellar_classification_files/figure-latex/unnamed-chunk-13-1.pdf>]
+Underfull \vbox (badness 10000) detected at line 751
  []
 
 
-Underfull \vbox (badness 10000) detected at line 735
+Underfull \vbox (badness 10000) detected at line 751
  []
 
 [6]
-Underfull \vbox (badness 10000) detected at line 735
+Underfull \vbox (badness 10000) detected at line 751
  []
 
 
-Underfull \vbox (badness 10000) detected at line 735
+Underfull \vbox (badness 10000) detected at line 751
  []
 
 [7]
-Underfull \vbox (badness 10000) detected at line 735
+Underfull \vbox (badness 10000) detected at line 751
  []
 
 
-Underfull \vbox (badness 10000) detected at line 735
+Underfull \vbox (badness 10000) detected at line 751
  []
 
 [8]
-Underfull \vbox (badness 10000) detected at line 735
+Underfull \vbox (badness 10000) detected at line 751
  []
 
 
-Underfull \vbox (badness 10000) detected at line 735
+Underfull \vbox (badness 10000) detected at line 751
  []
 
 [9]
-Underfull \vbox (badness 10000) detected at line 735
+Underfull \vbox (badness 10000) detected at line 751
  []
 
 
-Underfull \vbox (badness 10000) detected at line 735
+Underfull \vbox (badness 10000) detected at line 751
  []
 
 [10]
-Underfull \vbox (badness 10000) detected at line 735
+Underfull \vbox (badness 10000) detected at line 751
  []
 
 
-Underfull \vbox (badness 10000) detected at line 735
+Underfull \vbox (badness 10000) detected at line 751
  []
 
-[11] [12] (./stellar_classification.aux)
+[11]
+Underfull \vbox (badness 10000) detected at line 751
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 751
+ []
+
+[12] [13] (./stellar_classification.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -612,18 +847,18 @@ Package rerunfilecheck Info: File `stellar_classification.out' has not changed.
 (rerunfilecheck)             Checksum: A000FD360E4C3D85E0B5152EE39CC9F2;1034.
  ) 
 Here is how much of TeX's memory you used:
- 12147 strings out of 477035
- 193225 string characters out of 5828367
- 614544 words of memory out of 5000000
- 33027 multiletter control sequences out of 15000+600000
- 539389 words of font info for 79 fonts, out of 8000000 for 9000
+ 28178 strings out of 477035
+ 567755 string characters out of 5828367
+ 991288 words of memory out of 5000000
+ 48772 multiletter control sequences out of 15000+600000
+ 508350 words of font info for 91 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 60i,6n,67p,527b,498s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{/home/ada/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/home/ada/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/home/ada/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/home/ada/.TinyTeX/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}</home/ada/.TinyTeX/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb></home/ada/.TinyTeX/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb></home/ada/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></home/ada/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></home/ada/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtko10.pfb></home/ada/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></home/ada/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on stellar_classification.pdf (12 pages, 1366163 bytes).
+ 90i,6n,99p,527b,476s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{/home/ada/.TinyTeX/texmf-dist/fonts/enc/dvips/dejavu/dejavumono_t1-type1.enc}{/home/ada/.TinyTeX/texmf-dist/fonts/enc/dvips/dejavu/dejavumono_ts1.enc}{/home/ada/.TinyTeX/texmf-dist/fonts/enc/dvips/dejavu/dejavuserif_t1-type1.enc}</home/ada/.TinyTeX/texmf-dist/fonts/type1/public/dejavu/DejaVuSansMono-Bold.pfb></home/ada/.TinyTeX/texmf-dist/fonts/type1/public/dejavu/DejaVuSansMono-BoldOblique.pfb></home/ada/.TinyTeX/texmf-dist/fonts/type1/public/dejavu/DejaVuSansMono-Oblique.pfb></home/ada/.TinyTeX/texmf-dist/fonts/type1/public/dejavu/DejaVuSansMono.pfb></home/ada/.TinyTeX/texmf-dist/fonts/type1/public/dejavu/DejaVuSerif-Bold.pfb></home/ada/.TinyTeX/texmf-dist/fonts/type1/public/dejavu/DejaVuSerif.pfb></home/ada/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/euler/eurm10.pfb>
+Output written on stellar_classification.pdf (13 pages, 845250 bytes).
 PDF statistics:
- 211 PDF objects out of 1000 (max. 8388607)
- 164 compressed objects within 2 object streams
- 36 named destinations out of 1000 (max. 500000)
- 98 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 300 PDF objects out of 1000 (max. 8388607)
+ 212 compressed objects within 3 object streams
+ 37 named destinations out of 1000 (max. 500000)
+ 254 words of extra memory for PDF output out of 10000 (max. 10000000)
 
