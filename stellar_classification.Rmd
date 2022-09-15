@@ -5,7 +5,7 @@ output:
   pdf_document:
     fig_caption: yes        
     includes:  
-      in_header: my_header.tex # This disables figure floating
+      in_header: latex/my_header.tex # This disables figure floating
     highlight: default
 header-includes:
   - \usepackage{xcolor} # Define background color of code chunks
