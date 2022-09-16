@@ -24,7 +24,11 @@ header-includes:
 \tcbset{on line, 
         boxsep = 3pt, left = 0pt, right = 0pt, top = 0pt, bottom = 0pt,
         colframe = white, colback = inline_code_color,
-        highlight math style = {enhanced}
+        highlight math style = {enhanced},
+        grow to right by = 3pt,
+        grow to left by = 3pt,
+        enlarge top by = -3pt,
+        enlarge bottom by = -3pt
         }
 
 ```{r setup, include = F}
