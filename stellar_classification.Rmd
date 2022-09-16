@@ -11,14 +11,14 @@ header-includes:
   - \usepackage{xcolor} # Define background color of code chunks
   - \usepackage[most]{tcolorbox} # Set highlighted box for inline code
   - \usepackage{DejaVuSerif} # Change general font
-  # - \usepackage{eulervm} # Change font for formulas
+  - \usepackage[helvet]{sfmath} # Change font for formulas
   - \usepackage{DejaVuSansMono} # Change font of code
   - \usepackage[T1]{fontenc}
 ---
 <!-- background of code chunks-->
 \definecolor{shadecolor}{RGB}{240, 240, 240}
 <!-- background of inline-code chunks -->
-\definecolor{inline_code_color}{RGB}{220, 220, 220}
+\definecolor{inline_code_color}{RGB}{230, 230, 230}
 
 <!-- # Set highlighted box for inline code -->
 \tcbset{on line, 
@@ -55,7 +55,7 @@ dejavu_layer <- list(
 data <- read.csv("data/star_classification.csv", stringsAsFactors = TRUE)
 ```
 
-**Summary:** In this study, Stellar Classification Dataset - SDSS17 was explored. This is a multi-class classification problem with three classes: galaxies, stars, and quasars. The logistic regression model with \tcbox{\texttt{multinom}} function from \tcbox{\texttt{nnet}} package was utilised to solve this problem. The obtained accuracy for distinguishing stars from other classes is 99.4%. The obtained \textit{$\phi$} coefficient for distinguishing quasars from other classes is 89.2%. The obtained accuracy for distinguishing galaxies from other classes is 96.2%. 
+**Summary:** In this study, Stellar Classification Dataset - SDSS17 was explored. This is a multi-class classification problem with three classes: galaxies, stars, and quasars. The logistic regression model with \tcbox{\texttt{multinom}} function from \tcbox{\texttt{nnet}} package was utilised to solve this problem. The obtained accuracy for distinguishing stars from other classes is 99.4%. The obtained $\phi$ coefficient for distinguishing quasars from other classes is 89.2%. The obtained accuracy for distinguishing galaxies from other classes is 96.2%. 
 
 # Introduction
 
