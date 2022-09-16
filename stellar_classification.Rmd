@@ -11,7 +11,7 @@ header-includes:
   - \usepackage{xcolor} # Define background color of code chunks
   - \usepackage[most]{tcolorbox} # Set highlighted box for inline code
   - \usepackage{DejaVuSerif} # Change general font
-  - \usepackage{eulervm} # Change font for formulas
+  # - \usepackage{eulervm} # Change font for formulas
   - \usepackage{DejaVuSansMono} # Change font of code
   - \usepackage[T1]{fontenc}
 ---
@@ -246,7 +246,15 @@ Figure \ref{fig:fig2} shows three distinct clusters that should be easily identi
 
 # Model and Results
 
-We use the logistic regression model with \tcbox{\texttt{multinom}} function from \tcbox{\texttt{nnet}} package. To evaluate the model performance, we use one-versus rest approach and investigate the following three cases: 1)  galaxies-versus-rest classification, 2) quasars-versus-rest classification, and 3) stars-versus-rest classification. The performance of the model is assessed on the test data.
+We use the logistic regression model with \tcbox{\texttt{multinom}} function from \tcbox{\texttt{nnet}} package. To evaluate the model performance, we use one-versus rest approach (Eq. 1) and investigate the following three cases: 1)  galaxies-versus-rest classification, 2) quasars-versus-rest classification, and 3) stars-versus-rest classification. The performance of the model is assessed on the test data.
+
+The logistic regression model is as follows [2]:
+
+\begin{equation}
+  g(\pmb{x}) = \frac{1}{1 + e^{-f_{\pmb{\theta}}(\pmb{x})}},
+\end{equation}
+
+where $\pmb{x}$ is a vector of features and $\pmb{\theta}$ is a vector of parameters in the linear regression model $f_{\pmb{\theta}}(\pmb{x})$.
 
 ```{r include = F}
 logreg <- multinom(formula = target ~ ., data = tr)
@@ -508,6 +516,9 @@ grid.arrange(plot1[[1]], plot2[[1]], ncol = 2)
 # References
 
 [1] https://www.kaggle.com/datasets/fedesoriano/stellar-classification-dataset-sdss17 (The data released by the SDSS is under public domain.)
+
+[2] A. Lindholm, et al. 2021. Machine Learning. A First Course for Engineers and Scientists, Cambridge University Press.
+
 
 # Appendix
 
