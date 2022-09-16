@@ -133,10 +133,62 @@ target <- data$class
 
 # Compute the correlation matrix
 cor_mat <- cor(features)
+
+# Prepare df for plotting
+n_features <- dim(features)[2] # number of features
+row_tiles <- factor(rep(colnames(cor_mat), n_features)) # row grid for tiles
+col_tiles <- matrix(colnames(features), #col grid values for tiles
+                             ncol = n_features, 
+                             nrow = n_features, 
+                             byrow = T)
+col_tiles <- factor(c(col_tiles))
+
+values <- round(c(cor_mat), 3)
+df <- data.frame(row_tiles, col_tiles, values)
+
+plot <- ggplot(data =  df, mapping = aes(x = col_tiles, y = row_tiles)) + 
+  theme_minimal() +
+  geom_tile(aes(fill = values), color = "black", size = 0.1) +
+  geom_text(
+    aes(label = values),
+    vjust = 0.5, family = "DejaVuSans", size = 3.5
+  ) +
+  labs(
+    title = "Correlation Matrix",
+    x = NULL, 
+    y = NULL, 
+    fill = "Correlation\nScale"
+  ) +
+  scale_fill_gradient2(
+    low = "#7321db",
+    mid = "white",
+    high = "#f3ae07", 
+    breaks = seq(-1, 1, 0.5), # control label values
+    limits = c(-1, 1) # set limits feasible for correlation
+  ) +
+  scale_x_discrete(position = "top") +
+  scale_y_discrete(limits = rev) +
+  theme(
+    text = element_text(family = "Bitter", face = "bold"),
+    axis.text = element_text(
+      family = "DejaVuSansMono", 
+      size = 8),
+    title = element_text(size = 11),
+    legend.title = element_text(size = 10, margin = margin(b = 3)),
+    legend.text = element_text(size = 10, 
+                               face = "plain", 
+                               family = "DejaVuSans"),
+    panel.grid.major = element_blank(),
+    axis.text.x.top = element_text(margin = margin(b = -3), angle = 0),
+    axis.text.y.left = element_text(margin = margin(r = -5)),
+    legend.key.width = unit(1, 'cm'),
+    legend.key.height = unit(1, "cm")
+  )
+
 ```
 
-```{r}
-print(round(cor_mat, 3))
+```{r out.width = "100%"}
+print(plot)
 ```
 We observe that \tcbox{\texttt{r}}, \tcbox{\texttt{g}}, \tcbox{\texttt{u}}, and \tcbox{\texttt{z}} are strongly correlated. However, further analysis of the model performance has shown that inclusion of all these features into the model improves the results.
 
@@ -507,6 +559,60 @@ target <- data$class
 cor_mat <- cor(features)
 print(round(cor_mat, 3))
 
+# Prepare df for plotting
+n_features <- dim(features)[2] # number of features
+row_tiles <- factor(rep(colnames(cor_mat), n_features)) # row grid for tiles
+col_tiles <- matrix(colnames(features), #col grid values for tiles
+                             ncol = n_features, 
+                             nrow = n_features, 
+                             byrow = T)
+col_tiles <- factor(c(col_tiles))
+
+values <- round(c(cor_mat), 3)
+df <- data.frame(row_tiles, col_tiles, values)
+
+plot <- ggplot(data =  df, mapping = aes(x = col_tiles, y = row_tiles)) + 
+  theme_minimal() +
+  geom_tile(aes(fill = values), color = "black", size = 0.1) +
+  geom_text(
+    aes(label = values),
+    vjust = 0.5, family = "DejaVuSans", size = 4
+  ) +
+  labs(
+    title = "Correlation Matrix",
+    x = NULL, 
+    y = NULL, 
+    fill = "Correlation\nScale"
+  ) +
+  scale_fill_gradient2(
+    low = "#7321db",
+    mid = "white",
+    high = "#f3ae07", 
+    breaks = seq(-1, 1, 0.5), # control label values
+    limits = c(-1, 1) # set limits feasible for correlation
+  ) +
+  scale_x_discrete(position = "top") +
+  scale_y_discrete(limits = rev) +
+  theme(
+    text = element_text(family = "Bitter", face = "bold"),
+    axis.text = element_text(
+      family = "DejaVuSansMono", 
+      size = 13, face = "bold"),
+    title = element_text(size = 16),
+    legend.title = element_text(size = 13, margin = margin(b = 3)),
+    legend.text = element_text(size = 12, 
+                               face = "plain", 
+                               family = "DejaVuSans"),
+    panel.grid.major = element_blank(),
+    axis.text.x.top = element_text(margin = margin(b = -3)),
+    axis.text.y.left = element_text(margin = margin(r = -5)),
+    legend.key.width = unit(1, 'cm'),
+    legend.key.height = unit(1, "cm")
+  )
+
+print(plot)
+
+
 # We observe that r, g, u, and z are strongly correlated. 
 
 #-------------------------------------------------------------------#
@@ -595,9 +701,9 @@ rownames(CM_tr_stars_vs_rest) <- c("rest_pr", "STA_pr")
 print("For train data")
 print(CM_tr_stars_vs_rest)
 
+# Prepare df for plotting
 GT <- factor(c("Rest", "Stars", "Rest", "Stars"))
 predicted <- factor(c("Rest", "Rest", "Stars", "Stars"))
-
 values <- c(CM_tr_stars_vs_rest)
 df <- data.frame(GT, predicted, values)
 
@@ -647,6 +753,8 @@ rownames(CM_te_stars_vs_rest) <- c("rest_pr", "STA_pr")
 
 print("For test data")
 print(CM_te_stars_vs_rest)
+
+# Prepare df for plotting
 GT <- factor(c("Rest", "Stars", "Rest", "Stars"))
 predicted <- factor(c("Rest", "Rest", "Stars", "Stars"))
 values <- c(CM_te_stars_vs_rest)
